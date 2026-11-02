@@ -404,7 +404,7 @@
 </div>
 
 <div class="toast" id="toast"></div>
-<audio id="bgm" src="audio/theme.m4a?v=5" loop preload="auto" playsinline webkit-playsinline></audio>
+<audio id="bgm" src="audio/theme.m4a?v=6" loop preload="auto" playsinline webkit-playsinline></audio>
 
 <script>
 /* ===================== 数据 ===================== */
@@ -914,6 +914,8 @@ function celebrate(d){
 }
 $("celClose").onclick = function(){ hide("celebrate"); switchView("today"); };
 
+// 封面页就预加载音频：用户看封面的几秒已在缓冲，点「进入共栖」基本即时响，消除首次延迟
+try{ if(bgm) bgm.load(); }catch(e){}
 render();
 </script>
 <style>@keyframes popLeaf{0%{transform:scale(.2);opacity:0}60%{transform:scale(1.2)}100%{transform:scale(1);opacity:1}}</style>

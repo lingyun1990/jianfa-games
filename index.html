@@ -404,7 +404,7 @@
 </div>
 
 <div class="toast" id="toast"></div>
-<audio id="bgm" src="audio/theme.m4a?v=7" loop preload="auto" playsinline webkit-playsinline></audio>
+<audio id="bgm" src="audio/theme.m4a?v=8" loop preload="auto" playsinline webkit-playsinline></audio>
 
 <script>
 /* ===================== 数据 ===================== */
@@ -496,58 +496,26 @@ function sfxOpen(){
   beep(110,0.45,'sawtooth',0.09,0.0);
 }
 var bgm = $("bgm"), musicOn = false;
-var padOn = false, padNodes = null;
-function startPad(){
-  try{
-    ac(); if(!AC) return;
-    if(AC.state==="suspended") AC.resume();
-    if(padNodes) return;
-    var master = AC.createGain(); master.gain.value = 0; master.connect(AC.destination);
-    var freqs = [196.00, 246.94, 293.66, 392.00];
-    padNodes = {oscs:[], master:master};
-    freqs.forEach(function(f){
-      var o = AC.createOscillator(); o.type="sine"; o.frequency.value=f;
-      var g = AC.createGain(); g.gain.value = 0.05;
-      var lp = AC.createBiquadFilter(); lp.type="lowpass"; lp.frequency.value=1200;
-      o.connect(g); g.connect(lp); lp.connect(master); o.start();
-      padNodes.oscs.push(o);
-    });
-    var lfo = AC.createOscillator(); lfo.frequency.value = 0.08;
-    var lfoG = AC.createGain(); lfoG.gain.value = 0.025;
-    lfo.connect(lfoG); lfoG.connect(master.gain); lfo.start();
-    master.gain.linearRampToValueAtTime(0.12, AC.currentTime + 2.5);
-    padOn = true;
-  }catch(e){}
-}
-function stopPad(){
-  try{ if(padNodes && AC){ padNodes.master.gain.linearRampToValueAtTime(0, AC.currentTime + 0.6); } }catch(e){}
-  padOn = false;
-}
 function startBgm(){
   try{
     // 必须在用户手势的同步调用栈里直接 play()，iOS 才会解锁声音；前置 load() 会重置解码、反而破坏解锁
     var p = bgm.play();
     if(p && p.then){
-      p.then(function(){ musicOn=true; if(padOn) stopPad(); }).catch(function(){     // 缓冲不够被拒 → 等可播再放
-        bgm.addEventListener('canplay', function once(){ try{ bgm.play().then(function(){musicOn=true; if(padOn) stopPad();}).catch(function(){}); }catch(e){} }, {once:true});
+      p.then(function(){ musicOn=true; }).catch(function(){     // 缓冲不够被拒 → 等可播再放
+        bgm.addEventListener('canplay', function once(){ try{ bgm.play().catch(function(){}); }catch(e){} }, {once:true});
       });
     }
   }catch(e){}
 }
 // 安全网：万一封面那一下被系统掐掉，用户第一次触摸页面任意处再补放一次
 function armMusicFallback(){
-  function fire(){ if(!musicOn){ try{ bgm.play().then(function(){musicOn=true; if(padOn) stopPad();}).catch(function(){}); }catch(e){} } document.removeEventListener('touchstart',fire); document.removeEventListener('click',fire); }
+  function fire(){ if(!musicOn){ try{ bgm.play().then(function(){musicOn=true;}).catch(function(){}); }catch(e){} } document.removeEventListener('touchstart',fire); document.removeEventListener('click',fire); }
   document.addEventListener('touchstart', fire, {once:true, passive:true});
   document.addEventListener('click', fire, {once:true});
 }
 function toggleMusic(){
-  if(musicOn || padOn){
-    try{ bgm.pause(); }catch(e){} stopPad(); musicOn=false; padOn=false; $("musicBtn").classList.add("off");
-  } else {
-    try{ bgm.play().then(function(){musicOn=true;}).catch(function(){}); }catch(e){}
-    if(!musicOn){ startPad(); }
-    $("musicBtn").classList.remove("off");
-  }
+  if(bgm.paused){ try{ bgm.play(); musicOn=true; }catch(e){} $("musicBtn").classList.remove("off"); }
+  else { try{ bgm.pause(); }catch(e){} musicOn=false; $("musicBtn").classList.add("off"); }
 }
 $("musicBtn").onclick = toggleMusic;
 
@@ -569,8 +537,6 @@ $("enterBtn").onclick = function(){
   startBgm();
   armMusicFallback();
   switchView("today");
-  // 兜底：若 1.4s 内主题曲仍未成功播放(iOS拒绝/未缓冲好)，启动合成音保底——确保进入就有声，不依赖文件下载
-  setTimeout(function(){ if(!musicOn){ startPad(); } }, 1400);
 };
 
 /* ===================== 渲染 ===================== */

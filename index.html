@@ -186,6 +186,27 @@
     border-radius:22px; z-index:199; display:none; max-width:80%; text-align:center;}
   .toast.show{display:block; animation:tin .25s ease-out;}
   @keyframes tin{0%{opacity:0;transform:translate(-50%,8px)}100%{opacity:1;transform:translate(-50%,0)}}
+
+  /* 炎点 · 结果卡 */
+  .gauge-wrap{margin:2px 0 2px;}
+  .res-verdict{font-size:18px; font-weight:500; color:var(--green); margin-top:2px; letter-spacing:1px;}
+  .res-verdict.over{color:var(--red);}
+  .res-sub{font-size:12.5px; color:var(--muted); line-height:1.6; margin:8px 6px 0; text-align:left;}
+  .res-btns{display:flex; gap:10px; margin-top:16px;}
+  .res-btns button{flex:1; padding:12px; border-radius:13px; font-size:14px; font-weight:500;
+    border:1px solid var(--line); background:#fff; cursor:pointer;}
+  .res-btns .primary{background:var(--green); color:#fff; border-color:var(--green);}
+  .res-btns .primary:active{opacity:.85;}
+
+  /* 炎点 · 21 天记录 */
+  .hist-sum{display:flex; justify-content:space-around; margin:4px 0 14px;}
+  .hist-sum div{font-size:12px; color:var(--muted);}
+  .hist-sum b{color:var(--ink); font-size:17px; display:block; font-weight:500; margin-bottom:2px;}
+  .hist-bars{display:flex; align-items:flex-end; gap:2px; height:108px; padding:0 1px;}
+  .hb{flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; height:100%; min-width:0;}
+  .hbc{width:100%; border-radius:3px 3px 0 0; min-height:3px; transition:height .3s;}
+  .hbn{font-size:7.5px; color:var(--muted); margin-top:3px; line-height:1;}
+  .hist-note{font-size:11.5px; color:var(--muted); margin-top:12px; line-height:1.6; text-align:left;}
 </style>
 </head>
 <body>
@@ -240,7 +261,7 @@
     <!-- 共栖之路 -->
     <section class="view" id="viewRoad">
       <div class="road-head">
-        <span class="rh-txt">共栖之路 · 已点亮 <b id="roadLit">0</b> / 21</span>
+        <span id="roadProg"></span>
         <button class="mini-btn" id="albumBtn">藏品册</button>
       </div>
       <div class="road-map" id="roadMap"></div>
@@ -306,6 +327,35 @@
     <div class="badges" id="badges2"></div>
     <button class="btn ghost" id="albumClose" style="margin-top:14px;">关闭</button>
     <div class="reset" id="resetBtn2">重新开始（清空进度）</div>
+  </div>
+</div>
+
+<!-- 炎点 · 结果卡 -->
+<div class="modal" id="calcResult">
+  <div class="mbox">
+    <div class="rt">今日炎点 · 结果</div>
+    <div class="gauge-wrap" id="resGauge"></div>
+    <div class="res-verdict" id="resVerdict"></div>
+    <div class="res-sub" id="resSub"></div>
+    <div class="res-btns">
+      <button id="resHistory">看 21 天记录</button>
+      <button class="primary" id="resClose">翻篇</button>
+    </div>
+  </div>
+</div>
+
+<!-- 炎点 · 21 天记录 -->
+<div class="modal" id="calcHistory">
+  <div class="mbox">
+    <div class="rt">21 天炎点记录</div>
+    <div class="hist-sum">
+      <div>已记<b id="histCount">0</b>天</div>
+      <div>平均炎点<b id="histAvg">—</b></div>
+      <div>达标(≤5)<b id="histOk">0</b>天</div>
+    </div>
+    <div class="hist-bars" id="histBars"></div>
+    <div class="hist-note">红柱＝当天超预算，灰柱＝还没记。这只是你给自己看的镜子，不是考核，记下来是为了「看见」，不是「扣分」。</div>
+    <button class="btn ghost" id="histClose" style="margin-top:14px;">关闭</button>
   </div>
 </div>
 
@@ -406,6 +456,8 @@ function calcTodayKey(){ return "calc_"+todayStr(); }
 function calcLoad(){ try{ return JSON.parse(localStorage.getItem(calcTodayKey()))||{}; }catch(e){ return {}; } }
 function calcSave(o){ try{ localStorage.setItem(calcTodayKey(), JSON.stringify(o)); }catch(e){} }
 function calcTotal(o){ var s=0; CALC.groups.forEach(function(g){ g.items.forEach(function(it){ s += (o[it.name]||0)*g.pt; }); }); return s; }
+function calcHistLoad(){ try{ return JSON.parse(localStorage.getItem("gongxi_calc_hist"))||{}; }catch(e){ return {}; } }
+function calcHistSave(o){ try{ localStorage.setItem("gongxi_calc_hist", JSON.stringify(o)); }catch(e){} }
 
 /* ===================== 工具 ===================== */
 function $(id){ return document.getElementById(id); }
@@ -488,43 +540,70 @@ function renderToday(cur){
   $("todayBtn").onclick = function(){ if(done){ reviewDoor(cur); } else { openDoor(cur); } };
 }
 
-/* ===================== 共栖之路 · 群岛 ===================== */
-function islandPos(i){ // i:1..21
-  var t=(i-1)/20;
-  var x = 170 + 92*Math.sin(i*0.62);
-  var y = 560 - t*500;
-  var r = 26 - t*15;
-  return {x:x, y:y, r:r};
+/* ===================== 共栖之路 · 错落山峦 ===================== */
+function srnd(seed){ var x = Math.sin(seed*999.13 + 7.7)*43758.5453; return x - Math.floor(x); }
+function mGeom(d){
+  var row = Math.floor((d-1)/7);            // 0 近 · 1 中 · 2 远
+  var idx = (d-1)%7;
+  var scale = [1.0, 0.74, 0.5][row];
+  var baseY = [514, 356, 214][row];
+  var spread = 308;
+  var x = 26 + idx*(spread/6) + (srnd(d+200)-0.5)*18;
+  baseY += (srnd(d+300)-0.5)*14;
+  var h = (54 + srnd(d)*40) * scale;
+  var w = (44 + srnd(d+100)*20) * scale;
+  return {row:row, idx:idx, x:x, baseY:baseY, h:h, w:w, scale:scale};
+}
+function mSVG(g, d, tk, done, isToday, future){
+  var cx=g.x, by=g.baseY, h=g.h, w=g.w, s=g.scale;
+  var left=cx-w/2, right=cx+w/2, peakY=by-h;
+  var shL=by-h*0.60, shR=by-h*0.50;
+  var lit = done? "#5E8C6A" : "#BBB5A6";
+  var dk  = done? "#3C6B4C" : "#8E887A";
+  var layer = done? "#8FB79C" : "#D8D2C4";
+  var op = future? 0.5 : (g.row===2?0.72: g.row===1?0.86:1);
+  var svg='<g data-i="'+d+'" style="cursor:pointer" opacity="'+op+'">';
+  if(isToday) svg+='<circle cx="'+cx.toFixed(1)+'" cy="'+((by+peakY)/2).toFixed(1)+'" r="'+(w*0.66).toFixed(1)+'" fill="none" stroke="#D2703C" stroke-width="1.8" stroke-dasharray="4 5"/>';
+  svg+='<polygon points="'+left.toFixed(1)+','+by.toFixed(1)+' '+(cx-w*0.16).toFixed(1)+','+shL.toFixed(1)+' '+cx.toFixed(1)+','+peakY.toFixed(1)+' '+cx.toFixed(1)+','+by.toFixed(1)+'" fill="'+lit+'"/>';
+  svg+='<polygon points="'+cx.toFixed(1)+','+peakY.toFixed(1)+' '+(cx+w*0.18).toFixed(1)+','+shR.toFixed(1)+' '+right.toFixed(1)+','+by.toFixed(1)+' '+cx.toFixed(1)+','+by.toFixed(1)+'" fill="'+dk+'"/>';
+  var ly1=by-h*0.34, ly2=by-h*0.62;
+  svg+='<polyline points="'+(left+w*0.14).toFixed(1)+','+ly1.toFixed(1)+' '+(cx-w*0.03).toFixed(1)+','+(ly1-h*0.05).toFixed(1)+' '+(right-w*0.12).toFixed(1)+','+ly1.toFixed(1)+'" fill="none" stroke="'+layer+'" stroke-width="'+(1.1*s).toFixed(2)+'" opacity=".7"/>';
+  svg+='<polyline points="'+(left+w*0.20).toFixed(1)+','+ly2.toFixed(1)+' '+cx.toFixed(1)+','+(ly2-h*0.06).toFixed(1)+' '+(right-w*0.18).toFixed(1)+','+ly2.toFixed(1)+'" fill="none" stroke="'+layer+'" stroke-width="'+(1.1*s).toFixed(2)+'" opacity=".55"/>';
+  if(done){
+    var mx=cx, my=peakY-1;
+    svg+='<path d="M'+mx.toFixed(1)+' '+my.toFixed(1)+' q-5,-9 -2,-16 q6,5 2,16 z" fill="#4F6B4A"/>';
+    svg+='<path d="M'+mx.toFixed(1)+' '+my.toFixed(1)+' q5,-8 2,-15 q-6,5 -2,15 z" fill="#7BAE7B"/>';
+  }
+  if(d===7||d===14||d===21){
+    var fx=cx, fy=peakY-1;
+    svg+='<line x1="'+fx.toFixed(1)+'" y1="'+fy.toFixed(1)+'" x2="'+fx.toFixed(1)+'" y2="'+(fy-18).toFixed(1)+'" stroke="#14705A" stroke-width="1.8"/>';
+    svg+='<path d="M'+fx.toFixed(1)+' '+(fy-18).toFixed(1)+' l13 4 l-13 5 z" fill="#C9A24B"/>';
+  }
+  var bY=peakY - 12*s - 7;
+  svg+='<circle cx="'+cx.toFixed(1)+'" cy="'+bY.toFixed(1)+'" r="'+(9*s+4).toFixed(1)+'" fill="#ffffff" stroke="#14705A" stroke-width="1.5"/>';
+  svg+='<text x="'+cx.toFixed(1)+'" y="'+(bY + (3.4*s+1)).toFixed(1)+'" font-size="'+(10*s+3).toFixed(1)+'" fill="#14705A" font-weight="700" text-anchor="middle">'+d+'</text>';
+  if(done){
+    svg+='<text x="'+cx.toFixed(1)+'" y="'+(by+13).toFixed(1)+'" font-size="'+(8.5*s+1).toFixed(1)+'" fill="#5a574e" text-anchor="middle">'+tk.name+'</text>';
+  }
+  svg+='</g>';
+  return svg;
 }
 function renderRoad(){
   var cur = curDay(), oc = openedCount();
-  $("roadLit").textContent = oc;
-  var W=340, H=600;
-  var pts=[]; for(var k=0;k<21;k++){ var p=islandPos(k+1); pts.push(p); }
+  $("roadProg").textContent = "已点亮 "+oc+" / 21 · 今天第 "+cur+" 座";
+  var W=340, H=580;
   var svg='<svg viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="xMidYMid meet" style="display:block">';
-  svg+='<rect x="0" y="0" width="'+W+'" height="150" fill="#FBF6EC" opacity="0.45"/>';
-  svg+='<polyline points="'+pts.map(function(p){return p.x.toFixed(1)+','+p.y.toFixed(1);}).join(' ')+
-        '" fill="none" stroke="#B7CDC2" stroke-width="2" stroke-dasharray="1 8" stroke-linecap="round"/>';
-  for(var k=0;k<21;k++){
-    var d=k+1, p=pts[k], tk=TASKS[d-1], done=!!S.log[d], isToday=(d===cur), future=(!done&&d>cur&&!isToday);
-    var base = done? "#E3D3AE" : "#D8D5CC";
-    var topc = done? "#4F6B4A" : "#C4C1B8";
-    var op = future? 0.5 : 1;
-    svg+='<g data-i="'+d+'" style="cursor:pointer" opacity="'+op+'">';
-    if(isToday) svg+='<circle cx="'+p.x.toFixed(1)+'" cy="'+p.y.toFixed(1)+'" r="'+(p.r+9).toFixed(1)+'" fill="none" stroke="#D2703C" stroke-width="1.6" stroke-dasharray="3 5"/>';
-    svg+='<ellipse cx="'+p.x.toFixed(1)+'" cy="'+p.y.toFixed(1)+'" rx="'+p.r.toFixed(1)+'" ry="'+(p.r*0.38).toFixed(1)+'" fill="'+base+'"/>';
-    svg+='<ellipse cx="'+p.x.toFixed(1)+'" cy="'+(p.y-p.r*0.18).toFixed(1)+'" rx="'+(p.r*0.72).toFixed(1)+'" ry="'+(p.r*0.3).toFixed(1)+'" fill="'+topc+'"/>';
-    if(done){
-      var fx=p.x, fy=p.y-p.r*0.55, fr=p.r*0.42;
-      svg+='<path d="M'+fx.toFixed(1)+' '+fy.toFixed(1)+' c'+(fr*0.5).toFixed(1)+','+(fr*0.8).toFixed(1)+' '+(fr*0.9).toFixed(1)+','+(fr*1.4).toFixed(1)+' '+(fr*0.9).toFixed(1)+','+(fr*2)+' a'+(fr).toFixed(1)+','+(fr).toFixed(1)+' 0 1 1 '+(-fr*1.8).toFixed(1)+',0 c0,'+(-fr*0.7).toFixed(1)+' '+(-fr*0.4).toFixed(1)+','+(-fr*1.2).toFixed(1)+' '+(fr*0.9).toFixed(1)+','+(-fr*2)+'" fill="#D2703C"/>';
+  svg+='<defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#EAF1EC"/><stop offset="1" stop-color="#F7F2E7"/></linearGradient></defs>';
+  svg+='<rect x="0" y="0" width="'+W+'" height="'+H+'" fill="url(#sky)"/>';
+  svg+='<rect x="0" y="0" width="'+W+'" height="140" fill="#F7F2E7" opacity="0.6"/>';
+  svg+='<text x="170" y="30" font-size="12" fill="#9A8C72" text-anchor="middle">前方雾里 · 还有没到的日子</text>';
+for(var row=2; row>=0; row--){
+    for(var idx=0; idx<7; idx++){
+      var d = row*7 + idx + 1; if(d>21) continue;
+      var tk=TASKS[d-1], done=!!S.log[d], isToday=(d===cur), future=(!done&&d>cur&&!isToday);
+      svg += mSVG(mGeom(d), d, tk, done, isToday, future);
     }
-    if(d===7||d===14||d===21){
-      svg+='<path d="M'+p.x.toFixed(1)+' '+(p.y-p.r-4).toFixed(1)+' l0 -16 l13 5 l-13 5 z" fill="#C9A24B"/>';
-    }
-    svg+='<text x="'+p.x.toFixed(1)+'" y="'+(p.y+p.r*0.45+11).toFixed(1)+'" font-size="10" fill="#5F5E5A" text-anchor="middle">'+d+' '+(done?tk.name:"未到")+'</text>';
-    svg+='</g>';
   }
-  svg+='<text x="170" y="34" font-size="12" fill="#8C7A5F" text-anchor="middle">前方雾中 · 还有未到的日子</text>';
   svg+='</svg>';
   $("roadMap").innerHTML = svg;
   $("roadMap").querySelectorAll("g[data-i]").forEach(function(g){
@@ -580,7 +659,8 @@ function renderCalc(){
   var tip = total<=CALC.budget? "预算内 · 记了就翻篇，明天重新算" : "超预算了 · 明天重新算，不纠结";
   var html='';
   html+='<div class="calc-head"><div class="calc-lamp" style="background:'+lamp+'">'+total+'<span>/ '+CALC.budget+'</span></div>'+
-         '<div class="calc-status">今日炎点 · 填一填就算<div class="cs2">'+tip+'</div></div></div>';
+         '<div class="calc-status">今日炎点 · 填一填就算<div class="cs2">'+tip+'</div></div>'+
+         '<button class="mini-btn" id="calcSubmit" style="margin-left:auto;">看看今天</button></div>';
   CALC.groups.forEach(function(g){
     var cls = g.cls==="g2"?" g2":g.cls==="g1"?" g1":"";
     html+='<div class="cg"><div class="cg-h'+cls+'">'+g.pt+' 点 · '+g.label+'<span class="note">'+g.note+'</span></div>';
@@ -602,6 +682,7 @@ function renderCalc(){
     });
   });
   html+='</div>';
+  html+='<div style="text-align:center;margin:2px 0 12px;"><button class="mini-btn" id="calcHistBtn" style="border-color:#C9A24B;color:#C9A24B;">查看 21 天记录</button></div>';
   html+='<div class="foot">生活打卡小工具 · 不是科学量表 · 不构成医学建议<br>数据只存在你这台手机，不会上传。</div>';
   var box=$("calcBox"); box.innerHTML=html;
   box.querySelectorAll(".step").forEach(function(b){
@@ -619,8 +700,60 @@ function renderCalc(){
       calcSave(calcState); renderCalc();
     };
   });
+  $("calcSubmit").onclick=function(){
+    var total=calcTotal(calcState);
+    var hist=calcHistLoad(); hist[curDay()]=total; calcHistSave(hist);
+    showResult(total);
+  };
+  $("calcHistBtn").onclick=function(){ showHistory(); };
 }
-
+function gaugeSVG(total, budget, col){
+  var cx=80, cy=82, R=62;
+  var maxv = Math.max(budget*1.6, total, 1);
+  var frac = Math.min(total/maxv, 1);
+  var circ = Math.PI*R;
+  var arcBg='<path d="M'+(cx-R)+' '+cy+' A'+R+' '+R+' 0 0 1 '+(cx+R)+' '+cy+'" fill="none" stroke="#E6DFD0" stroke-width="13" stroke-linecap="round"/>';
+  var arcFg='<path d="M'+(cx-R)+' '+cy+' A'+R+' '+R+' 0 0 1 '+(cx+R)+' '+cy+'" fill="none" stroke="'+col+'" stroke-width="13" stroke-linecap="round" stroke-dasharray="'+ (circ*frac).toFixed(1)+' '+circ.toFixed(1)+'"/>';
+  var ang=-90 + frac*180; var rad=ang*Math.PI/180;
+  var px=cx+(R-3)*Math.cos(rad), py=cy+(R-3)*Math.sin(rad);
+  var ptr='<line x1="'+cx+'" y1="'+cy+'" x2="'+px.toFixed(1)+'" y2="'+py.toFixed(1)+'" stroke="#3E3327" stroke-width="2.5"/>';
+  var dot='<circle cx="'+cx+'" cy="'+cy+'" r="4" fill="#3E3327"/>';
+  var num='<text x="'+cx+'" y="'+(cy-4)+'" text-anchor="middle" font-size="30" font-weight="700" fill="'+col+'">'+total+'</text>';
+  var lbl='<text x="'+cx+'" y="'+(cy+16)+'" text-anchor="middle" font-size="11" fill="#8C7A5F">今日炎点 / '+budget+'</text>';
+  return '<svg viewBox="0 0 160 104" width="100%" style="max-width:220px;margin:0 auto;display:block">'+arcBg+arcFg+ptr+dot+num+lbl+'</svg>';
+}
+function showResult(total){
+  var col = total<=CALC.budget? "#14705A" : "#CF3E2B";
+  var verdict, sub;
+  if(total<=0){ verdict="今天一滴火都没浇"; sub="身体今天没添新负担，这一笔干干净净地记下了。"; }
+  else if(total<=CALC.budget){ verdict="预算内 · 稳住了"; sub="今天没多浇油。记下来不是为了扣分，是让自己「看见」——看见就够了，翻篇。"; }
+  else { verdict="超预算了"; sub="偶尔超一点没关系，谁都有松劲的时候。记下来是为了看清规律，不是打分，明天重新算。"; }
+  $("resGauge").innerHTML = gaugeSVG(total, CALC.budget, col);
+  var vEl=$("resVerdict"); vEl.textContent=verdict; vEl.className="res-verdict"+(total>CALC.budget?" over":"");
+  $("resSub").textContent = sub;
+  show("calcResult");
+}
+function showHistory(){
+  var hist=calcHistLoad();
+  var bars='';
+  for(var d=1; d<=21; d++){
+    var v = hist[d]!=null? hist[d] : null;
+    var hgt = v==null? 5 : Math.min(v/8,1)*86+5;
+    var col = v==null? "#E0D8C6" : (v<=CALC.budget? "#14705A" : "#CF3E2B");
+    bars += '<div class="hb"><div class="hbc" style="height:'+hgt.toFixed(0)+'px;background:'+col+'"></div><div class="hbn">'+d+'</div></div>';
+  }
+  $("histBars").innerHTML = bars;
+  var vals=[]; for(var d=1; d<=21; d++){ if(hist[d]!=null) vals.push(hist[d]); }
+  var avg = vals.length? (vals.reduce(function(a,b){return a+b;},0)/vals.length).toFixed(1) : "—";
+  var okCount = vals.filter(function(v){return v<=CALC.budget;}).length;
+  $("histCount").textContent = vals.length;
+  $("histAvg").textContent = avg;
+  $("histOk").textContent = okCount;
+  show("calcHistory");
+}
+$("resClose").onclick = function(){ hide("calcResult"); };
+$("resHistory").onclick = function(){ hide("calcResult"); showHistory(); };
+$("histClose").onclick = function(){ hide("calcHistory"); };
 /* ===================== 开门 / 答题 ===================== */
 function openDoor(d){
   if(S.log[d]){ reviewDoor(d); return; }

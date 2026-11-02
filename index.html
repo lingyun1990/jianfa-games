@@ -21,7 +21,7 @@
   .splash.hide{display:none;}
   .splash-brand{font-size:14px; letter-spacing:4px; color:var(--green);}
   .splash-sub{font-size:26px; font-weight:500; margin-top:8px; color:var(--ink);}
-  .splash-door{margin:26px 0 22px;}
+  .splash-emblem{margin:18px 0 6px;}
   .splash-btn{background:var(--green); color:#fff; border:none; padding:15px 40px; border-radius:30px;
     font-size:16px; font-weight:500; cursor:pointer; animation:breathe 2.2s ease-in-out infinite;}
   @keyframes breathe{0%,100%{transform:scale(1);opacity:.95}50%{transform:scale(1.04);opacity:1}}
@@ -215,17 +215,18 @@
 <div class="splash" id="splash">
   <div class="splash-brand">代谢盟 · 共栖社</div>
   <div class="splash-sub">21 天闯关门</div>
-  <div class="splash-door">
-    <svg viewBox="0 0 200 240" width="150" height="180">
-      <path d="M40 230 L40 90 A60 60 0 0 1 160 90 L160 230 Z" fill="#FBF6EC" stroke="#14705A" stroke-width="3"/>
-      <rect x="46" y="102" width="50" height="124" rx="4" fill="#D2703C" stroke="#14705A" stroke-width="2"/>
-      <rect x="104" y="102" width="50" height="124" rx="4" fill="#D2703C" stroke="#14705A" stroke-width="2"/>
-      <line x1="100" y1="102" x2="100" y2="226" stroke="#14705A" stroke-width="2"/>
-      <circle cx="90" cy="166" r="4" fill="#C9A24B"/><circle cx="110" cy="166" r="4" fill="#C9A24B"/>
+  <div class="splash-emblem">
+    <svg viewBox="0 0 200 200" width="150" height="150">
+      <circle cx="100" cy="100" r="92" fill="#FBF6EC" stroke="#14705A" stroke-width="3"/>
+      <path d="M100 152 C100 122 100 112 100 100" stroke="#8A6B4D" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <path d="M100 114 C80 106 70 90 72 70 C92 72 104 90 100 114 Z" fill="#4F6B4A"/>
+      <path d="M100 118 C120 110 130 94 128 76 C108 78 96 94 100 118 Z" fill="#7BAE7B"/>
+      <ellipse cx="100" cy="152" rx="26" ry="8" fill="#C9A24B" opacity=".5"/>
+      <path d="M150 58 q11 -15 0 -30 q-11 15 0 30" fill="#CF3E2B" opacity=".85"/>
+      <path d="M150 58 q-11 -13 0 -26 q11 13 0 26" fill="#E2A23A" opacity=".85"/>
     </svg>
   </div>
-  <button class="splash-btn" id="enterBtn">轻触推门 · 进入</button>
-  <div class="splash-note">戴上耳机，有主题曲相陪</div>
+  <button class="splash-btn" id="enterBtn">进入共栖 · 开始 21 天</button>
 </div>
 
 <!-- 手机容器 -->
@@ -540,35 +541,57 @@ function renderToday(cur){
   $("todayBtn").onclick = function(){ if(done){ reviewDoor(cur); } else { openDoor(cur); } };
 }
 
-/* ===================== 共栖之路 · 错落山峦 ===================== */
+/* ===================== 共栖之路 · 三段分区 ===================== */
 function srnd(seed){ var x = Math.sin(seed*999.13 + 7.7)*43758.5453; return x - Math.floor(x); }
+var ZONE = {
+  0:{name:"断", lit:"#E9A06A", dk:"#D2703C", band:"#F3D9B8", tree:"#7BAE6B"},
+  1:{name:"换", lit:"#9CC06A", dk:"#4F6B4A", band:"#CFE2B6", tree:"#3B6D11"},
+  2:{name:"修", lit:"#7FC0C6", dk:"#2E7D8C", band:"#BBDBDE", tree:"#4F6B4A"}
+};
+function zoneOf(d){ return d<=7?0 : d<=14?1 : 2; }
 function mGeom(d){
-  var row = Math.floor((d-1)/7);            // 0 近 · 1 中 · 2 远
+  var row = Math.floor((d-1)/7);
   var idx = (d-1)%7;
   var scale = [1.0, 0.74, 0.5][row];
-  var baseY = [514, 356, 214][row];
-  var spread = 308;
-  var x = 26 + idx*(spread/6) + (srnd(d+200)-0.5)*18;
-  baseY += (srnd(d+300)-0.5)*14;
-  var h = (54 + srnd(d)*40) * scale;
-  var w = (44 + srnd(d+100)*20) * scale;
-  return {row:row, idx:idx, x:x, baseY:baseY, h:h, w:w, scale:scale};
+  var baseY = [520, 360, 218][row];
+  var spread = 300;
+  var x = 30 + idx*(spread/6) + (srnd(d+200)-0.5)*16;
+  baseY += (srnd(d+300)-0.5)*12;
+  var h = (50 + srnd(d)*38) * scale;
+  var w = (42 + srnd(d+100)*18) * scale;
+  return {row:row, x:x, baseY:baseY, h:h, w:w, scale:scale};
+}
+function decoTree(x,y,s,col){
+  return '<g opacity="0.92"><rect x="'+(x-1.5*s).toFixed(1)+'" y="'+y.toFixed(1)+'" width="'+(3*s).toFixed(1)+'" height="'+(12*s).toFixed(1)+'" fill="#8A6B4D"/>'+
+    '<circle cx="'+x.toFixed(1)+'" cy="'+(y-4*s).toFixed(1)+'" r="'+(9*s).toFixed(1)+'" fill="'+col+'"/>'+
+    '<circle cx="'+(x-6*s).toFixed(1)+'" cy="'+(y+1*s).toFixed(1)+'" r="'+(6*s).toFixed(1)+'" fill="'+col+'"/>'+
+    '<circle cx="'+(x+6*s).toFixed(1)+'" cy="'+(y+1*s).toFixed(1)+'" r="'+(6*s).toFixed(1)+'" fill="'+col+'"/></g>';
+}
+function decoFlower(x,y,s,col){
+  var p=''; for(var i=0;i<5;i++){ var a=i*72*Math.PI/180; var fx=x+Math.cos(a)*4*s, fy=y+Math.sin(a)*4*s; p+='<circle cx="'+fx.toFixed(1)+'" cy="'+fy.toFixed(1)+'" r="'+(2.4*s).toFixed(1)+'" fill="'+col+'"/>'; }
+  p+='<circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="'+(2.2*s).toFixed(1)+'" fill="#F4C95A"/>';
+  return '<g>'+p+'</g>';
+}
+function decoCloud(x,y,s){
+  return '<g fill="#FFFFFF" opacity="0.85"><ellipse cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" rx="'+(16*s).toFixed(1)+'" ry="'+(8*s).toFixed(1)+'"/>'+
+    '<ellipse cx="'+(x+12*s).toFixed(1)+'" cy="'+(y-4*s).toFixed(1)+'" rx="'+(11*s).toFixed(1)+'" ry="'+(7*s).toFixed(1)+'"/>'+
+    '<ellipse cx="'+(x-12*s).toFixed(1)+'" cy="'+(y-3*s).toFixed(1)+'" rx="'+(10*s).toFixed(1)+'" ry="'+(6*s).toFixed(1)+'"/></g>';
 }
 function mSVG(g, d, tk, done, isToday, future){
+  var z = ZONE[zoneOf(d)];
   var cx=g.x, by=g.baseY, h=g.h, w=g.w, s=g.scale;
   var left=cx-w/2, right=cx+w/2, peakY=by-h;
   var shL=by-h*0.60, shR=by-h*0.50;
-  var lit = done? "#5E8C6A" : "#BBB5A6";
-  var dk  = done? "#3C6B4C" : "#8E887A";
-  var layer = done? "#8FB79C" : "#D8D2C4";
-  var op = future? 0.5 : (g.row===2?0.72: g.row===1?0.86:1);
+  var lit = z.lit, dk = z.dk;
+  var op = future? 0.55 : (g.row===2?0.8: g.row===1?0.9:1);
   var svg='<g data-i="'+d+'" style="cursor:pointer" opacity="'+op+'">';
-  if(isToday) svg+='<circle cx="'+cx.toFixed(1)+'" cy="'+((by+peakY)/2).toFixed(1)+'" r="'+(w*0.66).toFixed(1)+'" fill="none" stroke="#D2703C" stroke-width="1.8" stroke-dasharray="4 5"/>';
+  if(isToday) svg+='<circle cx="'+cx.toFixed(1)+'" cy="'+((by+peakY)/2).toFixed(1)+'" r="'+(w*0.7).toFixed(1)+'" fill="none" stroke="#D2703C" stroke-width="2" stroke-dasharray="4 5"/>';
   svg+='<polygon points="'+left.toFixed(1)+','+by.toFixed(1)+' '+(cx-w*0.16).toFixed(1)+','+shL.toFixed(1)+' '+cx.toFixed(1)+','+peakY.toFixed(1)+' '+cx.toFixed(1)+','+by.toFixed(1)+'" fill="'+lit+'"/>';
   svg+='<polygon points="'+cx.toFixed(1)+','+peakY.toFixed(1)+' '+(cx+w*0.18).toFixed(1)+','+shR.toFixed(1)+' '+right.toFixed(1)+','+by.toFixed(1)+' '+cx.toFixed(1)+','+by.toFixed(1)+'" fill="'+dk+'"/>';
+  svg+='<polygon points="'+cx.toFixed(1)+','+peakY.toFixed(1)+' '+(cx-w*0.16).toFixed(1)+','+shL.toFixed(1)+' '+cx.toFixed(1)+','+(peakY+h*0.18).toFixed(1)+'" fill="#FFFFFF" opacity="0.22"/>';
   var ly1=by-h*0.34, ly2=by-h*0.62;
-  svg+='<polyline points="'+(left+w*0.14).toFixed(1)+','+ly1.toFixed(1)+' '+(cx-w*0.03).toFixed(1)+','+(ly1-h*0.05).toFixed(1)+' '+(right-w*0.12).toFixed(1)+','+ly1.toFixed(1)+'" fill="none" stroke="'+layer+'" stroke-width="'+(1.1*s).toFixed(2)+'" opacity=".7"/>';
-  svg+='<polyline points="'+(left+w*0.20).toFixed(1)+','+ly2.toFixed(1)+' '+cx.toFixed(1)+','+(ly2-h*0.06).toFixed(1)+' '+(right-w*0.18).toFixed(1)+','+ly2.toFixed(1)+'" fill="none" stroke="'+layer+'" stroke-width="'+(1.1*s).toFixed(2)+'" opacity=".55"/>';
+  svg+='<polyline points="'+(left+w*0.14).toFixed(1)+','+ly1.toFixed(1)+' '+(cx-w*0.03).toFixed(1)+','+(ly1-h*0.05).toFixed(1)+' '+(right-w*0.12).toFixed(1)+','+ly1.toFixed(1)+'" fill="none" stroke="#FFFFFF" stroke-width="'+(1*s).toFixed(2)+'" opacity=".5"/>';
+  svg+='<polyline points="'+(left+w*0.20).toFixed(1)+','+ly2.toFixed(1)+' '+cx.toFixed(1)+','+(ly2-h*0.06).toFixed(1)+' '+(right-w*0.18).toFixed(1)+','+ly2.toFixed(1)+'" fill="none" stroke="#FFFFFF" stroke-width="'+(1*s).toFixed(2)+'" opacity=".4"/>';
   if(done){
     var mx=cx, my=peakY-1;
     svg+='<path d="M'+mx.toFixed(1)+' '+my.toFixed(1)+' q-5,-9 -2,-16 q6,5 2,16 z" fill="#4F6B4A"/>';
@@ -576,12 +599,12 @@ function mSVG(g, d, tk, done, isToday, future){
   }
   if(d===7||d===14||d===21){
     var fx=cx, fy=peakY-1;
-    svg+='<line x1="'+fx.toFixed(1)+'" y1="'+fy.toFixed(1)+'" x2="'+fx.toFixed(1)+'" y2="'+(fy-18).toFixed(1)+'" stroke="#14705A" stroke-width="1.8"/>';
-    svg+='<path d="M'+fx.toFixed(1)+' '+(fy-18).toFixed(1)+' l13 4 l-13 5 z" fill="#C9A24B"/>';
+    svg+='<line x1="'+fx.toFixed(1)+'" y1="'+fy.toFixed(1)+'" x2="'+fx.toFixed(1)+'" y2="'+(fy-20).toFixed(1)+'" stroke="#8A6B4D" stroke-width="2"/>';
+    svg+='<path d="M'+fx.toFixed(1)+' '+(fy-20).toFixed(1)+' l14 5 l-14 6 z" fill="#C9A24B"/>';
   }
-  var bY=peakY - 12*s - 7;
-  svg+='<circle cx="'+cx.toFixed(1)+'" cy="'+bY.toFixed(1)+'" r="'+(9*s+4).toFixed(1)+'" fill="#ffffff" stroke="#14705A" stroke-width="1.5"/>';
-  svg+='<text x="'+cx.toFixed(1)+'" y="'+(bY + (3.4*s+1)).toFixed(1)+'" font-size="'+(10*s+3).toFixed(1)+'" fill="#14705A" font-weight="700" text-anchor="middle">'+d+'</text>';
+  var bY=peakY - 13*s - 7;
+  svg+='<circle cx="'+cx.toFixed(1)+'" cy="'+bY.toFixed(1)+'" r="'+(10*s+4).toFixed(1)+'" fill="#ffffff" stroke="'+z.dk+'" stroke-width="2"/>';
+  svg+='<text x="'+cx.toFixed(1)+'" y="'+(bY + (4*s+1)).toFixed(1)+'" font-size="'+(11*s+3).toFixed(1)+'" fill="'+z.dk+'" font-weight="700" text-anchor="middle">'+d+'</text>';
   if(done){
     svg+='<text x="'+cx.toFixed(1)+'" y="'+(by+13).toFixed(1)+'" font-size="'+(8.5*s+1).toFixed(1)+'" fill="#5a574e" text-anchor="middle">'+tk.name+'</text>';
   }
@@ -593,15 +616,33 @@ function renderRoad(){
   $("roadProg").textContent = "已点亮 "+oc+" / 21 · 今天第 "+cur+" 座";
   var W=340, H=580;
   var svg='<svg viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="xMidYMid meet" style="display:block">';
-  svg+='<defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#EAF1EC"/><stop offset="1" stop-color="#F7F2E7"/></linearGradient></defs>';
-  svg+='<rect x="0" y="0" width="'+W+'" height="'+H+'" fill="url(#sky)"/>';
-  svg+='<rect x="0" y="0" width="'+W+'" height="140" fill="#F7F2E7" opacity="0.6"/>';
-  svg+='<text x="170" y="30" font-size="12" fill="#9A8C72" text-anchor="middle">前方雾里 · 还有没到的日子</text>';
-for(var row=2; row>=0; row--){
+  svg+='<rect x="0" y="0" width="'+W+'" height="'+H+'" fill="#FBF6EC"/>';
+  svg+='<rect x="0" y="430" width="'+W+'" height="'+(H-430)+'" fill="'+ZONE[0].band+'" opacity="0.55"/>';
+  svg+='<rect x="0" y="270" width="'+W+'" height="160" fill="'+ZONE[1].band+'" opacity="0.55"/>';
+  svg+='<rect x="0" y="120" width="'+W+'" height="150" fill="'+ZONE[2].band+'" opacity="0.55"/>';
+  svg+='<ellipse cx="200" cy="42" rx="150" ry="24" fill="#9FD0D8" opacity="0.6"/>';
+  svg+='<text x="14" y="562" font-size="11" fill="#B4552F" opacity="0.85">断 · Day 1-7</text>';
+  svg+='<text x="14" y="402" font-size="11" fill="#4F6B4A" opacity="0.9">换 · Day 8-14</text>';
+  svg+='<text x="14" y="248" font-size="11" fill="#2E7D8C" opacity="0.9">修 · Day 15-21</text>';
+  svg+=decoCloud(60,140,1.1)+decoCloud(285,86,0.9)+decoCloud(150,300,0.8)+decoCloud(300,415,0.9);
+  svg+=decoTree(40,476,1.1,ZONE[0].tree)+decoFlower(96,522,1,"#CF3E2B")+decoFlower(300,500,0.9,"#CF3E2B")+decoTree(310,462,1,ZONE[0].tree);
+  svg+=decoTree(35,306,1,ZONE[1].tree)+decoFlower(92,360,1,"#EFB93C")+decoFlower(300,330,1,"#CF3E2B")+decoTree(308,300,1,ZONE[1].tree);
+  svg+=decoTree(40,182,0.9,ZONE[2].tree)+decoFlower(92,228,0.9,"#EFB93C")+decoFlower(300,196,0.9,"#CF3E2B")+decoTree(305,174,0.9,ZONE[2].tree);
+  var pos={};
+  for(var row=2; row>=0; row--){
     for(var idx=0; idx<7; idx++){
       var d = row*7 + idx + 1; if(d>21) continue;
-      var tk=TASKS[d-1], done=!!S.log[d], isToday=(d===cur), future=(!done&&d>cur&&!isToday);
-      svg += mSVG(mGeom(d), d, tk, done, isToday, future);
+      var g=mGeom(d); pos[d]={x:g.x, y:g.baseY - g.h};
+    }
+  }
+  var path='M';
+  for(var d=1; d<=21; d++){ path += pos[d].x.toFixed(1)+' '+(pos[d].y+6).toFixed(1); if(d<21) path+=' L'; }
+  svg+='<path d="'+path+'" fill="none" stroke="#B49B78" stroke-width="3" stroke-dasharray="1 11" stroke-linecap="round" opacity="0.7"/>';
+  for(var row=2; row>=0; row--){
+    for(var idx=0; idx<7; idx++){
+      var d2 = row*7 + idx + 1; if(d2>21) continue;
+      var tk=TASKS[d2-1], done=!!S.log[d2], isToday=(d2===cur), future=(!done&&d2>cur&&!isToday);
+      svg += mSVG(mGeom(d2), d2, tk, done, isToday, future);
     }
   }
   svg+='</svg>';
@@ -659,8 +700,7 @@ function renderCalc(){
   var tip = total<=CALC.budget? "预算内 · 记了就翻篇，明天重新算" : "超预算了 · 明天重新算，不纠结";
   var html='';
   html+='<div class="calc-head"><div class="calc-lamp" style="background:'+lamp+'">'+total+'<span>/ '+CALC.budget+'</span></div>'+
-         '<div class="calc-status">今日炎点 · 填一填就算<div class="cs2">'+tip+'</div></div>'+
-         '<button class="mini-btn" id="calcSubmit" style="margin-left:auto;">看看今天</button></div>';
+         '<div class="calc-status">今日炎点 · 填一填就算<div class="cs2">'+tip+'</div></div></div>';
   CALC.groups.forEach(function(g){
     var cls = g.cls==="g2"?" g2":g.cls==="g1"?" g1":"";
     html+='<div class="cg"><div class="cg-h'+cls+'">'+g.pt+' 点 · '+g.label+'<span class="note">'+g.note+'</span></div>';
@@ -682,7 +722,8 @@ function renderCalc(){
     });
   });
   html+='</div>';
-  html+='<div style="text-align:center;margin:2px 0 12px;"><button class="mini-btn" id="calcHistBtn" style="border-color:#C9A24B;color:#C9A24B;">查看 21 天记录</button></div>';
+  html+='<button class="btn" id="calcSubmit" style="background:var(--orange);font-size:17px;padding:15px;margin-top:14px;letter-spacing:2px;">计算我的炎点</button>';
+  html+='<div style="text-align:center;margin:12px 0 6px;"><button class="mini-btn" id="calcHistBtn" style="border-color:#C9A24B;color:#C9A24B;">查看 21 天记录</button></div>';
   html+='<div class="foot">生活打卡小工具 · 不是科学量表 · 不构成医学建议<br>数据只存在你这台手机，不会上传。</div>';
   var box=$("calcBox"); box.innerHTML=html;
   box.querySelectorAll(".step").forEach(function(b){
@@ -713,14 +754,14 @@ function gaugeSVG(total, budget, col){
   var frac = Math.min(total/maxv, 1);
   var circ = Math.PI*R;
   var arcBg='<path d="M'+(cx-R)+' '+cy+' A'+R+' '+R+' 0 0 1 '+(cx+R)+' '+cy+'" fill="none" stroke="#E6DFD0" stroke-width="13" stroke-linecap="round"/>';
-  var arcFg='<path d="M'+(cx-R)+' '+cy+' A'+R+' '+R+' 0 0 1 '+(cx+R)+' '+cy+'" fill="none" stroke="'+col+'" stroke-width="13" stroke-linecap="round" stroke-dasharray="'+ (circ*frac).toFixed(1)+' '+circ.toFixed(1)+'"/>';
+  var arcFg='<path id="gfg" d="M'+(cx-R)+' '+cy+' A'+R+' '+R+' 0 0 1 '+(cx+R)+' '+cy+'" fill="none" stroke="'+col+'" stroke-width="13" stroke-linecap="round" stroke-dasharray="'+circ.toFixed(1)+'" stroke-dashoffset="'+circ.toFixed(1)+'" style="transition:stroke-dashoffset 1.1s ease-out"/>';
   var ang=-90 + frac*180; var rad=ang*Math.PI/180;
   var px=cx+(R-3)*Math.cos(rad), py=cy+(R-3)*Math.sin(rad);
   var ptr='<line x1="'+cx+'" y1="'+cy+'" x2="'+px.toFixed(1)+'" y2="'+py.toFixed(1)+'" stroke="#3E3327" stroke-width="2.5"/>';
   var dot='<circle cx="'+cx+'" cy="'+cy+'" r="4" fill="#3E3327"/>';
-  var num='<text x="'+cx+'" y="'+(cy-4)+'" text-anchor="middle" font-size="30" font-weight="700" fill="'+col+'">'+total+'</text>';
+  var num='<text id="gnum" x="'+cx+'" y="'+(cy-2)+'" text-anchor="middle" font-size="30" font-weight="700" fill="'+col+'">0</text>';
   var lbl='<text x="'+cx+'" y="'+(cy+16)+'" text-anchor="middle" font-size="11" fill="#8C7A5F">今日炎点 / '+budget+'</text>';
-  return '<svg viewBox="0 0 160 104" width="100%" style="max-width:220px;margin:0 auto;display:block">'+arcBg+arcFg+ptr+dot+num+lbl+'</svg>';
+  return {svg:'<svg viewBox="0 0 160 104" width="100%" style="max-width:220px;margin:0 auto;display:block">'+arcBg+arcFg+ptr+dot+num+lbl+'</svg>', frac:frac, circ:circ};
 }
 function showResult(total){
   var col = total<=CALC.budget? "#14705A" : "#CF3E2B";
@@ -728,10 +769,16 @@ function showResult(total){
   if(total<=0){ verdict="今天一滴火都没浇"; sub="身体今天没添新负担，这一笔干干净净地记下了。"; }
   else if(total<=CALC.budget){ verdict="预算内 · 稳住了"; sub="今天没多浇油。记下来不是为了扣分，是让自己「看见」——看见就够了，翻篇。"; }
   else { verdict="超预算了"; sub="偶尔超一点没关系，谁都有松劲的时候。记下来是为了看清规律，不是打分，明天重新算。"; }
-  $("resGauge").innerHTML = gaugeSVG(total, CALC.budget, col);
+  var g = gaugeSVG(total, CALC.budget, col);
+  $("resGauge").innerHTML = g.svg;
   var vEl=$("resVerdict"); vEl.textContent=verdict; vEl.className="res-verdict"+(total>CALC.budget?" over":"");
   $("resSub").textContent = sub;
   show("calcResult");
+  requestAnimationFrame(function(){ requestAnimationFrame(function(){
+    var gfg=document.getElementById("gfg"); if(gfg) gfg.style.strokeDashoffset=(g.circ*(1-g.frac)).toFixed(1);
+    var gnum=document.getElementById("gnum");
+    if(gnum){ var n=0, step=Math.max(1,Math.ceil(total/28)), iv=setInterval(function(){ n+=step; if(n>=total){n=total;clearInterval(iv);} gnum.textContent=n; },34); }
+  }); });
 }
 function showHistory(){
   var hist=calcHistLoad();

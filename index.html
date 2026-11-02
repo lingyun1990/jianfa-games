@@ -493,7 +493,23 @@ function sfxOpen(){
   beep(110,0.45,'sawtooth',0.09,0.0);
 }
 var bgm = $("bgm"), musicOn = false;
-function startBgm(){ try{ bgm.play().then(function(){musicOn=true;}).catch(function(){}); }catch(e){} }
+function startBgm(){
+  try{
+    bgm.load();                                   // iOS 不认 preload，手动触发下载
+    var p = bgm.play();
+    if(p && p.then){
+      p.then(function(){ musicOn=true; }).catch(function(){     // 缓冲不够被拒 → 等可播再放
+        bgm.addEventListener('canplay', function once(){ try{ bgm.play().catch(function(){}); }catch(e){} }, {once:true});
+      });
+    }
+  }catch(e){}
+}
+// 安全网：万一封面那一下被系统掐掉，用户第一次触摸页面任意处再补放一次
+function armMusicFallback(){
+  function fire(){ if(!musicOn){ try{ bgm.play().then(function(){musicOn=true;}).catch(function(){}); }catch(e){} } document.removeEventListener('touchstart',fire); document.removeEventListener('click',fire); }
+  document.addEventListener('touchstart', fire, {once:true, passive:true});
+  document.addEventListener('click', fire, {once:true});
+}
 function toggleMusic(){
   if(bgm.paused){ try{ bgm.play(); musicOn=true; }catch(e){} $("musicBtn").classList.remove("off"); }
   else { try{ bgm.pause(); }catch(e){} musicOn=false; $("musicBtn").classList.add("off"); }
@@ -516,6 +532,7 @@ $("enterBtn").onclick = function(){
   $("splash").classList.add("hide");
   try{ ac(); if(AC && AC.state==="suspended") AC.resume(); }catch(e){}
   startBgm();
+  armMusicFallback();
   switchView("today");
 };
 

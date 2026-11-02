@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>🔥 火苗快问快答</title>
+<style>
+  :root{
+    /* 品牌锚色（与灭火记/闯关门统一） */
+    --ink:#33302A; --ink-2:#8A8172; --ink-3:#9A9184;
+    --line:#EADFCB; --paper:#FBF6EC; --card:#FFFDF8; --card-2:#F3ECDD;
+    --clay:#B5714A; --gold:#C9A24B; --olive:#3F5848;  /* olive=深竹青，用作「对」 */
+    /* 中国传统色 · 朱砂／藤黄／竹青／石青／藕荷 */
+    --coral:#CF3E2B; --coral-d:#A32A1A;
+    --sun:#D9A020;   --sun-d:#9C7000;
+    --mint:#2C9B76;  --mint-d:#14705A;
+    --sky:#2E6C9E;   --sky-d:#1F5480;
+    --berry:#8E6BA8; --bronze:#B98F4C; --bronze-l:#F4E3BC;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  html{margin:0;padding:0;background:#FBF6EC;}
+  body{
+    margin:0;padding:0;background:transparent;color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+    font-size:15px; line-height:1.72;
+    max-width:560px; margin:0 auto; padding:0 16px 56px;
+    min-height:100vh;position:relative;overflow-x:hidden;
+  }
+  /* 彩雾底：四角柔光 + 极淡纹（与灭火记/闯关门统一） */
+  body::before{
+    content:"";position:fixed;inset:0;z-index:-2;pointer-events:none;
+    background:
+      radial-gradient(circle at 10% 3%,  rgba(217,160,32,.30), transparent 40%),
+      radial-gradient(circle at 93% 2%,  rgba(46,108,158,.22), transparent 38%),
+      radial-gradient(circle at 97% 70%, rgba(44,155,118,.22), transparent 42%),
+      radial-gradient(circle at 3% 88%,  rgba(207,62,43,.24), transparent 44%),
+      radial-gradient(circle at 52% 44%, rgba(142,107,168,.11), transparent 54%);
+  }
+  body::after{
+    content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.5;
+    background-image:linear-gradient(45deg,rgba(176,140,80,.11) 25%,transparent 25%,transparent 75%,rgba(176,140,80,.11) 75%),linear-gradient(45deg,rgba(176,140,80,.11) 25%,transparent 25%,transparent 75%,rgba(176,140,80,.11) 75%);
+    background-size:26px 26px;background-position:0 0,13px 13px;
+  }
+
+  /* ---------- 顶部品牌（与灭火记/闯关门统一） ---------- */
+  .brandbar{display:flex;align-items:center;justify-content:space-between;padding:16px 2px 4px;font-size:12.5px;color:#7C7367;}
+  .brandbar .b1{font-weight:700;color:#3F5848;letter-spacing:0.5px;}
+  .brandbar .b1::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:linear-gradient(135deg,#D9A020,#CF3E2B);margin-right:7px;vertical-align:1px;}
+  .brandbar .b3{color:#9A9184;letter-spacing:0.3px;}
+  .head{text-align:center;padding:4px 0 0;}
+  .head h1{
+    margin:0;font-size:30px;font-weight:700;letter-spacing:2px;
+    font-family:STSong,'Songti SC',SimSun,serif;
+    background:linear-gradient(100deg,#CF3E2B 0%,#D9A020 38%,#2C9B76 74%,#2E6C9E 100%);
+    -webkit-background-clip:text;background-clip:text;
+    color:transparent;-webkit-text-fill-color:transparent;
+  }
+  .head .sub{margin-top:8px;font-size:13px;color:#8A8172;letter-spacing:0.8px;}
+  .rule{width:100px;height:5px;margin:14px auto 0;border-radius:3px;
+    background:repeating-linear-gradient(90deg,rgba(255,255,255,.45) 0 5px,transparent 5px 11px),linear-gradient(90deg,#CF3E2B,#D9A020 34%,#2C9B76 67%,#2E6C9E);}
+
+  .tabs{ display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:16px 0 18px; }
+  .tab{
+    background:var(--card); border:1px solid var(--line); border-radius:14px;
+    padding:10px 4px 8px; text-align:center; cursor:pointer; transition:.15s;
+    position:relative;
+  }
+  .tab .d{ font-size:11px; color:var(--ink-3); letter-spacing:.08em; }
+  .tab .n{ font-size:14px; font-weight:600; margin-top:1px; }
+  .tab.active{ border-color:var(--coral); box-shadow:0 4px 14px rgba(207,62,43,.16); background:#FFF; }
+  .tab.active .n{ color:var(--coral); }
+  .tab .mini{ font-size:11px; margin-top:5px; letter-spacing:1px; }
+  .tab .mini .f{ filter:grayscale(1) opacity(.35); }
+  .tab .mini .f.on{ filter:none; }
+
+  .card{
+    background:var(--card); border:1px solid var(--line); border-radius:18px;
+    padding:20px 18px; box-shadow:0 6px 20px rgba(51,48,42,.06);
+  }
+  .q-head{ font-size:12.5px; color:var(--ink-3); letter-spacing:.06em; margin-bottom:12px; font-weight:600; }
+  .q-head .spare{ color:var(--gold); }
+  .q-text{ font-size:18px; line-height:1.6; font-weight:600; margin:0 0 20px; }
+  .choices{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .choice{
+    border:none; border-radius:14px; padding:16px 0; font-size:19px; font-weight:700;
+    cursor:pointer; color:#FFF; transition:.12s;
+  }
+  .choice:active{ transform:translateY(1px); }
+  .choice.yes{ background:var(--olive); }
+  .choice.no{ background:var(--coral); }
+
+  .feedback{ margin-top:16px; padding:14px 14px; border-radius:14px; background:var(--card-2); font-size:14.5px; line-height:1.62; display:none; }
+  .feedback.show{ display:block; }
+  .feedback .fb-title{ font-weight:700; margin-bottom:4px; }
+  .feedback.ok .fb-title{ color:var(--mint); }
+  .feedback.bad .fb-title{ color:var(--coral); }
+  .feedback .ans-line{ color:var(--coral); font-weight:600; }
+  .feedback .retry{ margin-top:12px; }
+
+  .next-btn{
+    margin-top:14px; width:100%; border:none; border-radius:14px; padding:14px 0;
+    background:var(--ink); color:#FFF; font-size:16px; font-weight:700; cursor:pointer; display:none;
+  }
+  .next-btn.show{ display:block; }
+  .next-btn:active{ transform:translateY(1px); }
+
+  /* 战报 */
+  .report{ text-align:center; }
+  .report .r-title{ font-family:Georgia,serif; font-size:22px; font-weight:700; margin-bottom:14px; }
+  .flames{ font-size:40px; letter-spacing:8px; margin:6px 0 10px; }
+  .flames .f{ display:inline-block; }
+  .flames .f.off{ filter:grayscale(1) opacity(.28); }
+  .score{ font-size:15px; color:var(--ink-2); margin-bottom:14px; }
+  .score b{ font-size:26px; color:var(--coral); }
+  .comment{ font-size:15.5px; line-height:1.7; background:var(--card-2); border-radius:14px; padding:14px; margin-bottom:18px; }
+  .actions-hide{ }
+  .shot-btn{
+    width:100%; border:none; border-radius:14px; padding:15px 0; background:var(--coral); color:#FFF;
+    font-size:16px; font-weight:700; cursor:pointer;
+  }
+  .shot-btn:active{ transform:translateY(1px); }
+  .redo-btn{
+    width:100%; border:1px solid var(--line); border-radius:14px; padding:12px 0; background:transparent;
+    color:var(--ink-2); font-size:14px; cursor:pointer; margin-top:10px;
+  }
+
+  .foot{ text-align:center; margin-top:26px; padding:0 6px; font-size:11.5px; line-height:1.9; color:#A79E8D; }
+  .foot .motto{ font-family:Georgia,serif; color:#8A8172; letter-spacing:.04em; font-size:13px; font-weight:700; }
+  .foot .sig{ color:#8A8172; font-weight:700; letter-spacing:1px; margin:6px 0; font-size:13px; }
+  .foot .cut{ width:34px;height:1px;background:#DCD3C2;margin:13px auto; }
+  .foot .cr{ margin-top:13px;padding-top:11px;border-top:1px dashed #E2DACA;font-size:11px;line-height:1.85;color:#A79E8D;letter-spacing:.3px; }
+
+  /* 截图模式 */
+  #shotbar{
+    display:none; position:fixed; left:0; right:0; bottom:0; background:var(--ink);
+    color:#FFF; padding:14px 18px; font-size:13.5px; line-height:1.6; z-index:50;
+  }
+  #shotbar .exit{
+    display:inline-block; margin-top:8px; background:var(--gold); color:var(--ink);
+    border:none; border-radius:10px; padding:8px 16px; font-size:14px; font-weight:700; cursor:pointer;
+  }
+  body.shotmode .no-shot{ display:none !important; }
+  body.shotmode #shotbar{ display:block; }
+  body.shotmode{ padding-bottom:120px; }
+</style>
+</head>
+<body>
+<div id="app"></div>
+
+<script>
+/* ===== 题库（来源：同事源码提取结果，逐字；Day1 加时题3 已软化"抗炎"表述） ===== */
+const DAYS = [
+  { day:1, name:'换油', formal:[
+    {t:'大豆油、玉米油、葵花籽油这些常见种子油，Omega-6 含量很高，天天吃容易加重身体的慢性炎症。', a:true,
+     e:'身体需要 Omega-6，但只需要一点点。现在很多家庭 Omega-6 和 Omega-3 的比例到了 20:1 甚至更高——天平歪了，身体的「炎症开关」就一直被按着，关不掉。'},
+    {t:'猪油、黄油碰都不能碰，比种子油还可怕。', a:false,
+     e:'要看用法和来源。草饲猪油、黄油耐高温、性质稳定，高温烹调其实比氧化的种子油更合适。真正要清走的是精炼种子油。'},
+    {t:'外卖、零食、糕点、沙拉酱里，大概率都藏着种子油——因为它便宜到没有对手。', a:true,
+     e:'精炼种子油无处不在，不只是家里炒菜才有。你以为自己吃得挺健康，其实每天每顿都在往身体里「浇油」。'}
+  ], spare:[
+    {t:'家里炒菜换油，第一步不用买齐，先把最常用的一瓶换成橄榄油、猪油或椰子油就行。', a:true,
+     e:'对，不用一步到位。一瓶橄榄油几十块够用一个月，21 天里性价比最高的动作就是它。'},
+    {t:'手划破了周围又红又肿，这种急性炎症是坏事，对身体只有伤害。', a:false,
+     e:'急性炎症是身体在打仗、在修复，伤口好了它就退了——这是好事。真正要防的是看不见、一直慢慢烧的慢性炎症。'},
+    {t:'想补 Omega-3、把炎症天平往回拉，可以多吃深海鱼、核桃、亚麻籽。', a:true,
+     e:'Omega-3 是身体用来收尾的材料，深海鱼、亚麻籽、奇亚籽都是好来源，每周吃两三次深海鱼就很好。'}
+  ]},
+  { day:2, name:'断糖', formal:[
+    {t:'一杯中杯全糖奶茶含糖约 50 克，而世卫组织建议一天添加糖不超过 25 克——一杯奶茶就是两天的量。', a:true,
+     e:'你一杯就干了两天。而且糖藏在所有地方：酱料、酸奶、面包，你以为没吃糖，其实从早到晚一口没停过。'},
+    {t:'蜂蜜、红糖、黑糖是「天然的糖」，这 21 天里可以照常喝。', a:false,
+     e:'身体不区分「天然的糖」和「添加的糖」，进到血液里是一样的。这 21 天里一律断。'},
+    {t:'肠道里的坏菌最爱吃的口粮是糖，好菌最爱吃的是膳食纤维。', a:true,
+     e:'好菌吃蔬菜粗粮里的纤维，坏菌吃糖。你吃糖，等于给坏菌开自助餐——坏菌疯长，胀气、放屁臭、便秘就都来了。'}
+  ], spare:[
+    {t:'完整水果的糖是天然糖、有纤维裹着，这 21 天里一天吃 1~2 个拳头大小的量是可以的。', a:true,
+     e:'可以吃。但果汁不行——纤维没了、糖吸收太快，等于一杯糖水。'},
+    {t:'精制碳水进肚子几乎不用消化，几分钟就变成葡萄糖冲进血液，血糖像坐过山车。', a:true,
+     e:'对。所以白米饭、白面条、白馒头要减半——空出来的那半碗，用菜填。'},
+    {t:'断糖前一两天没力气、头疼，说明身体被搞坏了，得赶紧吃点甜的。', a:false,
+     e:'别慌，这是身体在切换供能方式的过渡反应，通常两三天就缓过来。蔬菜和蛋白质吃够就行。'}
+  ]},
+  { day:3, name:'看配料表', formal:[
+    {t:'包装上写着「0 反式脂肪酸」，就说明这个食品真的不含反式脂肪。', a:false,
+     e:'国标规定每 100 克不超过 0.3 克就能标 0。配料表里只要有「氢化」两个字，说明还是用了。记住铁律：有「氢化」就不要吃。'},
+    {t:'买包装食品，配料表排前三位的有白砂糖、果葡糖浆、氢化植物油，说明它的本质就是糖和油。', a:true,
+     e:'前三位决定本质。糖、油、盐排在前面的，先放下。好酸奶的配料表就两样：生牛乳、乳酸菌。'},
+    {t:'有些乳化剂会偷偷拆掉肠道的黏液层——也就是肠道的「防潮层」。', a:true,
+     e:'研究发现卡拉胶、羧甲基纤维素这类乳化剂可能侵蚀肠道黏液层。防潮层一破，免疫系统就得天天救火，全身慢性炎症就这么起来了。'}
+  ], spare:[
+    {t:'配料表越长越好，说明营养成分越全面。', a:false,
+     e:'反了——配料表越短越好，名字越能看懂越好，保质期越短越好。长到读不懂的，是「食品工业产品」，不是食物。'},
+    {t:'真正的好面包，保质期两三天到一周才正常，放久了会硬、会长霉。', a:true,
+     e:'对，食物放久了会坏才是对的表现。保质期 30 天、60 天不坏的，才是要留心的。'},
+    {t:'一天下来发现超市里能买的东西没几样，说明这趟白逛了。', a:false,
+     e:'这就对了！这个发现本身就是 21 天里最值钱的东西之一——你终于分清了什么是食物，什么是「科技很活」。'}
+  ]},
+  { day:4, name:'断麸质', formal:[
+    {t:'现代小麦和老祖宗吃的小麦，麸质已经不一样了——现在的麸质蛋白更多、结构也更难分解。', a:true,
+     e:'上世纪五六十年代的「绿色革命」，为了高产、抗倒伏，培育出了矮秆小麦。产量上去了，代价是麸质蛋白含量大幅增加、结构也变了。老祖宗那点麸质像一根细绳子，肠道解得开；现在这一团，更像钢丝球。'},
+    {t:'反正都是小麦磨的面，传统面食和现在的面食，对肠道来说没什么两样。', a:false,
+     e:'差在「预处理」。传统面食要长时间自然发酵——老面、天然酵母，有时一天一夜，微生物先帮你分解掉一部分麸质；麦子还会先泡、微微发芽。现在快速发酵粉半小时就发起来，麸质基本没动。以前吃进去是「半成品」，现在是「原装钢丝球」。'},
+    {t:'肠道屏障那些「门」被反复敲开之后，没消化完的大分子和毒素会进到血液里，免疫系统一直拉警报——这种炎症不疼不痒，你几乎感觉不到。', a:true,
+     e:'麸质里的麦醇溶蛋白会刺激肠道释放「连蛋白」——那就是打开紧密连接的开关。门关不上，就是肠漏。80% 的免疫细胞驻扎在肠道周围，一看血液里来了「不明身份的人」就拉警报。这就是低度炎症：一把不冒烟的文火，不疼不痒，烧久了器官才跟着出问题。'}
+  ], spare:[
+    {t:'老祖宗吃了几千年小麦都没事，所以小麦本身没问题——变的是小麦、吃法和我们自己的肠道，这三样同时变了。', a:true,
+     e:'对，是三把锁同时换了：锁芯换了（小麦麸质变难了）、钥匙换了（发酵预处理没了）、门本身也旧了（我们的肠道屏障早就带伤工作）。少任何一变，都还不至于到今天这个地步。'},
+    {t:'为了安全，所有人都应该一辈子戒掉面食，一口都别碰。', a:false,
+     e:'课稿里说得明白：每个人肠道状态不一样，有人屏障厚实，偶尔吃完全没问题。断麸质 7 天是给你自己做一次测试，不是判无期。7 天后身体给你什么答案，你自己最清楚。'},
+    {t:'肠道长期发炎，还会影响情绪——因为让你心情好的血清素，七成以上是在肠道里合成的。', a:true,
+     e:'所以肠道一长期发炎，血清素合成就受阻，人会莫名低落、焦虑、睡不好、脾气大。你以为是自己心态不好、想太多，很可能只是肠道造不出足够的血清素。'}
+  ]}
+];
+
+const PRAISE = ['👍 点赞！答对了！','👏 掌声送上，答对了！','🔥 厉害！这团火灭得漂亮！'];
+const COMMENTS = {
+  0:'火没灭成没关系，错过的题回群里再复习一遍——记住的才是自己的。明天继续。',
+  1:'三道门里灭了一团火，剩下的火苗记住在哪就行。明天继续。',
+  2:'三道门里灭了两团火，就差最后一团了。明天继续。',
+  3:'漂亮！今天的火，全灭。把战报发群里，让大家看看什么叫「知道就做到」。'
+};
+
+/* ===== 状态与存储 ===== */
+const KEY_PREFIX = 'kuaiwenda_v4_';
+let state = { day:1, qi:0, phase:'normal' };
+let records = {};
+
+function key(d){ return KEY_PREFIX + d; }
+function loadRec(d){
+  if(!records[d]){
+    try{ records[d] = JSON.parse(localStorage.getItem(key(d))); }catch(e){ records[d]=null; }
+    if(!records[d] || !Array.isArray(records[d].ans)) records[d] = { ans:[null,null,null], score:0 };
+  }
+  return records[d];
+}
+function saveRec(d){ localStorage.setItem(key(d), JSON.stringify(records[d])); }
+function isDone(d){ const r=loadRec(d); return r.ans.every(x=>x!==null); }
+function flameHTML(d){
+  const r=loadRec(d);
+  return r.ans.map(x=> x===true ? '<span class="f on">🔥</span>' : '<span class="f">🔥</span>').join('');
+}
+const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+/* ===== 渲染 ===== */
+const app = document.getElementById('app');
+function render(){
+  const rec = loadRec(state.day);
+  const done = rec.ans.every(x=>x!==null);
+  let tabs = '<div class="tabs">';
+  DAYS.forEach(d=>{
+    const active = d.day===state.day ? ' active':'';
+    tabs += '<div class="tab'+active+'" data-day="'+d.day+'"><div class="d">DAY '+d.day+'</div><div class="n">'+esc(d.name)+'</div><div class="mini">'+flameHTML(d.day)+'</div></div>';
+  });
+  tabs += '</div>';
+
+  let body;
+  if(done) body = reportHTML(state.day);
+  else body = questionHTML(state.day, state.qi, state.phase);
+
+  app.innerHTML =
+    '<div class="brandbar no-shot">'
+    + '<span class="b1">代谢盟 · 共栖社</span>'
+    + '<span class="b3">课后小测 · 三游戏之一</span>'
+    + '</div>'
+    + '<div class="head no-shot">'
+    + '<h1>🔥 火苗快问快答</h1>'
+    + '<div class="sub">每日三题 · 判断对错 · 答错别慌，换一题再试</div>'
+    + '<div class="rule"></div>'
+    + '</div>'
+    + tabs
+    + '<div class="card" id="card">'+body+'</div>'
+    + '<div class="foot no-shot">'
+    +   '<div class="motto">肠净则栖安，心定则福至</div>'
+    +   '<div class="cut"></div>'
+    +   '<div class="sig">代谢盟 · 共栖社</div>'
+    +   '<div class="cr">本工具为共栖社内部的生活科普小互动，用于建立日常觉察，不是科学量表，不构成医学建议，也不能替代专业诊疗。</div>'
+    + '</div>'
+    + shotbarHTML();
+  bind();
+}
+
+function questionHTML(d, qi, phase){
+  const data = DAYS[d-1];
+  const q = phase==='normal' ? data.formal[qi] : data.spare[qi];
+  const head = phase==='normal'
+    ? 'DAY '+d+' · 第 '+(qi+1)+' 题 / 共 3 题'
+    : 'DAY '+d+' · 第 '+(qi+1)+' 题 <span class="spare">· 加时题</span>';
+  return ''
+    + '<div class="q-head">'+head+'</div>'
+    + '<p class="q-text">'+esc(q.t)+'</p>'
+    + '<div class="choices">'
+    +   '<button class="choice yes" data-ans="true">对 ✔</button>'
+    +   '<button class="choice no" data-ans="false">错 ✘</button>'
+    + '</div>'
+    + '<div class="feedback" id="fb"></div>'
+    + '<button class="next-btn" id="next">下一题 →</button>';
+}
+
+function reportHTML(d){
+  const rec = loadRec(d);
+  const score = rec.ans.filter(x=>x===true).length;
+  const flames = rec.ans.map(x=> x===true ? '<span class="f on">🔥</span>' : '<span class="f">🔥</span>').join('');
+  return ''
+    + '<div class="report">'
+    +   '<div class="r-title">DAY '+d+' · 灭火战报</div>'
+    +   '<div class="flames">'+flames+'</div>'
+    +   '<div class="score">今天灭了 <b>'+score+'</b> / 3 团火</div>'
+    +   '<div class="comment">'+esc(COMMENTS[score])+'</div>'
+    +   '<div class="actions-hide">'
+    +     '<button class="shot-btn" id="shot">📸 截图发群里</button>'
+    +     '<button class="redo-btn" id="redo">重新答一次</button>'
+    +   '</div>'
+    + '</div>';
+}
+
+function shotbarHTML(){
+  return '<div id="shotbar">'
+    + '📱 现在截屏：安卓同时按「电源键＋音量下键」，iPhone 同时按「侧边键＋音量上键」——把这张战报发到群里打卡。'
+    + '<br/><button class="exit" id="exitShot">截完了，点这退出</button></div>';
+}
+
+/* ===== 交互 ===== */
+function bind(){
+  document.querySelectorAll('.tab').forEach(t=>{
+    t.addEventListener('click', ()=>{ state.day = +t.dataset.day; state.qi = firstUnanswered(state.day); state.phase='normal'; render(); });
+  });
+  const fb = document.getElementById('fb');
+  const next = document.getElementById('next');
+  document.querySelectorAll('.choice').forEach(c=>{
+    c.addEventListener('click', ()=>handleAnswer(c.dataset.ans==='true'));
+  });
+  if(next) next.addEventListener('click', gotoNext);
+  const shot = document.getElementById('shot');
+  if(shot) shot.addEventListener('click', ()=>{ document.body.classList.add('shotmode'); window.scrollTo(0,0); });
+  const exit = document.getElementById('exitShot');
+  if(exit) exit.addEventListener('click', ()=>{ document.body.classList.remove('shotmode'); });
+  const redo = document.getElementById('redo');
+  if(redo) redo.addEventListener('click', ()=>{
+    records[state.day] = { ans:[null,null,null], score:0 }; saveRec(state.day);
+    state.qi=0; state.phase='normal'; render();
+  });
+}
+
+function firstUnanswered(d){ const r=loadRec(d); const i=r.ans.findIndex(x=>x===null); return i<0?0:i; }
+
+function handleAnswer(chosen){
+  const d = state.day, qi = state.qi;
+  const data = DAYS[d-1];
+  const rec = loadRec(d);
+  const fb = document.getElementById('fb');
+  const next = document.getElementById('next');
+  const correct = state.phase==='normal' ? data.formal[qi].a : data.spare[qi].a;
+  const right = chosen === correct;
+
+  if(state.phase==='normal'){
+    if(right){
+      rec.ans[qi]=true; saveRec(d);
+      fb.className='feedback show ok';
+      fb.innerHTML='<div class="fb-title">'+PRAISE[Math.floor(Math.random()*PRAISE.length)]+'</div><div>'+esc(data.formal[qi].e)+'</div>';
+      showNext('下一题 →');
+    } else {
+      const q=data.formal[qi];
+      fb.className='feedback show bad';
+      fb.innerHTML='<div class="fb-title">💧 答错了～别慌，先看解析复习一下：</div>'
+        +'<div><span class="ans-line">正确答案是「'+(q.a?'对':'错')+'」。</span> '+esc(q.e)+'</div>'
+        +'<div class="retry">🔄 换一题，再试一次（答对这团火也照样点亮）</div>';
+      // 进入加时题
+      state.phase='spare';
+      // 重绘题目为加时题，但保持反馈可见在下方；这里改为整体替换卡面
+      const sp=data.spare[qi];
+      const card=document.getElementById('card');
+      card.innerHTML='<div class="q-head">DAY '+d+' · 第 '+(qi+1)+' 题 <span class="spare">· 加时题</span></div>'
+        +'<p class="q-text">'+esc(sp.t)+'</p>'
+        +'<div class="choices"><button class="choice yes" data-ans="true">对 ✔</button><button class="choice no" data-ans="false">错 ✘</button></div>'
+        +'<div class="feedback show bad"><div class="fb-title">💧 答错了～别慌，先看解析复习一下：</div>'
+        +'<div><span class="ans-line">正确答案是「'+(q.a?'对':'错')+'」。</span> '+esc(q.e)+'</div>'
+        +'<div class="retry">🔄 换一题，再试一次（答对这团火也照样点亮）</div></div>'
+        +'<button class="next-btn" id="next">下一题 →</button>';
+      bind();
+    }
+  } else { // spare
+    if(right){
+      rec.ans[qi]=true; saveRec(d);
+      fb.className='feedback show ok';
+      fb.innerHTML='<div class="fb-title">👏 加时题也拿下了！火苗照样点亮！</div><div>'+esc(data.spare[qi].e)+'</div>';
+      showNext('下一题 →');
+    } else {
+      const sp=data.spare[qi];
+      rec.ans[qi]=false; saveRec(d);
+      fb.className='feedback show bad';
+      fb.innerHTML='<div class="fb-title">💧 这次又没对上——没关系，慢慢来：</div>'
+        +'<div><span class="ans-line">正确答案是「'+(sp.a?'对':'错')+'」。</span> '+esc(sp.e)+'</div>'
+        +'<div class="retry">回群里把今天的分享再听一遍，火苗明天照样给你点。</div>';
+      showNext('看战报 →');
+    }
+  }
+}
+
+function showNext(txt){
+  const next=document.getElementById('next');
+  if(next){ next.textContent=txt; next.className='next-btn show'; }
+}
+
+function gotoNext(){
+  const d=state.day, rec=loadRec(d);
+  state.qi++;
+  if(state.qi<3){ state.phase='normal'; render(); }
+  else { rec.score = rec.ans.filter(x=>x===true).length; saveRec(d); render(); }
+}
+
+/* 初始进入：定位到第一个未完成的天，否则第1天 */
+(function init(){
+  let start=1;
+  for(let i=1;i<=4;i++){ if(!isDone(i)){ start=i; break; } }
+  state.day=start; state.qi=firstUnanswered(start); state.phase='normal';
+  render();
+})();
+</script>
+</body>
+</html>

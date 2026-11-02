@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>21天 · 三件小事 ｜ 代谢盟 · 共栖社</title>
+<style>
+  :root{
+    --ink:#33302A; --ink-2:#8A8172; --ink-3:#9A9184;
+    --line:#EADFCB; --paper:#FBF6EC; --card:#FFFDF8; --card-2:#F3ECDD;
+    --clay:#B5714A; --gold:#C9A24B; --olive:#3F5848;
+    --coral:#CF3E2B; --sun:#D9A020; --mint:#2C9B76; --mint-d:#14705A; --sky:#2E6C9E;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  html{margin:0;padding:0;background:#FBF6EC;}
+  body{
+    margin:0;padding:0;background:transparent;color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+    font-size:15px; line-height:1.72;
+    max-width:560px; margin:0 auto; padding:0 16px 56px;
+    min-height:100vh;position:relative;overflow-x:hidden;
+  }
+  body::before{
+    content:"";position:fixed;inset:0;z-index:-2;pointer-events:none;
+    background:
+      radial-gradient(circle at 10% 3%,  rgba(217,160,32,.30), transparent 40%),
+      radial-gradient(circle at 93% 2%,  rgba(46,108,158,.22), transparent 38%),
+      radial-gradient(circle at 97% 70%, rgba(44,155,118,.22), transparent 42%),
+      radial-gradient(circle at 3% 88%,  rgba(207,62,43,.24), transparent 44%),
+      radial-gradient(circle at 52% 44%, rgba(142,107,168,.11), transparent 54%);
+  }
+  body::after{
+    content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.5;
+    background-image:linear-gradient(45deg,rgba(176,140,80,.11) 25%,transparent 25%,transparent 75%,rgba(176,140,80,.11) 75%),linear-gradient(45deg,rgba(176,140,80,.11) 25%,transparent 25%,transparent 75%,rgba(176,140,80,.11) 75%);
+    background-size:26px 26px;background-position:0 0,13px 13px;
+  }
+  .brandbar{display:flex;align-items:center;justify-content:space-between;padding:16px 2px 4px;font-size:12.5px;color:#7C7367;}
+  .brandbar .b1{font-weight:700;color:#3F5848;letter-spacing:0.5px;}
+  .brandbar .b1::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:linear-gradient(135deg,#D9A020,#CF3E2B);margin-right:7px;vertical-align:1px;}
+  .brandbar .b3{color:#9A9184;letter-spacing:0.3px;}
+  .head{text-align:center;padding:4px 0 0;}
+  .head h1{
+    margin:0;font-size:30px;font-weight:700;letter-spacing:2px;
+    font-family:STSong,'Songti SC',SimSun,serif;
+    background:linear-gradient(100deg,#CF3E2B 0%,#D9A020 38%,#2C9B76 74%,#2E6C9E 100%);
+    -webkit-background-clip:text;background-clip:text;
+    color:transparent;-webkit-text-fill-color:transparent;
+  }
+  .head .sub{margin-top:8px;font-size:13px;color:#8A8172;letter-spacing:0.8px;}
+  .rule{width:100px;height:5px;margin:14px auto 0;border-radius:3px;
+    background:repeating-linear-gradient(90deg,rgba(255,255,255,.45) 0 5px,transparent 5px 11px),linear-gradient(90deg,#CF3E2B,#D9A020 34%,#2C9B76 67%,#2E6C9E);}
+
+  .cards{display:flex;flex-direction:column;gap:14px;margin:22px 0 8px;}
+  a.entry{
+    display:flex;align-items:center;gap:14px;text-decoration:none;color:inherit;
+    background:var(--card);border:1px solid var(--line);border-radius:18px;
+    padding:18px 16px;box-shadow:0 6px 20px rgba(51,48,42,.06);transition:.15s;
+  }
+  a.entry:active{transform:translateY(1px);}
+  .entry .ico{
+    flex:0 0 52px;width:52px;height:52px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;font-size:26px;
+  }
+  .entry.g1 .ico{background:linear-gradient(135deg,rgba(44,155,118,.16),rgba(20,112,90,.16));}
+  .entry.g2 .ico{background:linear-gradient(135deg,rgba(207,62,43,.14),rgba(217,160,32,.16));}
+  .entry.g3 .ico{background:linear-gradient(135deg,rgba(217,160,32,.16),rgba(46,108,158,.14));}
+  .entry .tx{flex:1;min-width:0;}
+  .entry .tag{font-size:11px;letter-spacing:.08em;margin-bottom:2px;}
+  .entry.g1 .tag{color:var(--mint-d);}
+  .entry.g2 .tag{color:var(--coral);}
+  .entry.g3 .tag{color:var(--sun-d,#9C7000);}
+  .entry .name{font-size:17px;font-weight:700;}
+  .entry .desc{font-size:13px;color:var(--ink-2);margin-top:3px;line-height:1.55;}
+  .entry .go{flex:0 0 auto;color:var(--clay);font-weight:700;font-size:14px;}
+
+  .note{
+    margin-top:16px;background:var(--card-2);border-radius:14px;padding:13px 15px;
+    font-size:12.5px;color:var(--ink-2);line-height:1.7;
+  }
+  .note b{color:var(--olive);}
+
+  .foot{ text-align:center; margin-top:26px; padding:0 6px; font-size:11.5px; line-height:1.9; color:#A79E8D; }
+  .foot .motto{ font-family:Georgia,serif; color:#8A8172; letter-spacing:.04em; font-size:13px; font-weight:700; }
+  .foot .sig{ color:#8A8172; font-weight:700; letter-spacing:1px; margin:6px 0; font-size:13px; }
+  .foot .cut{ width:34px;height:1px;background:#DCD3C2;margin:13px auto; }
+  .foot .cr{ margin-top:13px;padding-top:11px;border-top:1px dashed #E2DACA;font-size:11px;line-height:1.85;color:#A79E8D;letter-spacing:.3px; }
+</style>
+</head>
+<body>
+  <div class="brandbar">
+    <span class="b1">代谢盟 · 共栖社</span>
+    <span class="b3">训练营 · 小工具</span>
+  </div>
+  <div class="head">
+    <h1>🌱 21天 · 三件小事</h1>
+    <div class="sub">不用下载、不用登录 · 进度只存在你自己的手机里</div>
+    <div class="rule"></div>
+  </div>
+
+  <div class="cards">
+    <a class="entry g1" href="./chuangguan/index.html">
+      <div class="ico">🚪</div>
+      <div class="tx">
+        <div class="tag">新学员 · 每天 5 分钟</div>
+        <div class="name">21天闯关门</div>
+        <div class="desc">每天答对 3 道题，推开门，做一件今天的小事。</div>
+      </div>
+      <div class="go">进入 →</div>
+    </a>
+    <a class="entry g2" href="./miehuoji/index.html">
+      <div class="ico">🔥</div>
+      <div class="tx">
+        <div class="tag">老学员 · 轻量打卡</div>
+        <div class="name">21天灭火记</div>
+        <div class="desc">每天开一道门，做到就打勾，火苗一天比一天小。</div>
+      </div>
+      <div class="go">进入 →</div>
+    </a>
+    <a class="entry g3" href="./kuaiwenda/index.html">
+      <div class="ico">❓</div>
+      <div class="tx">
+        <div class="tag">课后小测 · 每天 3 题</div>
+        <div class="name">火苗快问快答</div>
+        <div class="desc">判断对错，答错别慌——换一题再试，学会就行。</div>
+      </div>
+      <div class="go">进入 →</div>
+    </a>
+  </div>
+
+  <div class="note">
+    <b>怎么玩：</b>点上面任意一张卡片就进入对应小工具。三个工具互不影响，进度自动记在本机——换手机或清了浏览器记录，进度会重新开始，不影响前面的努力。
+  </div>
+
+  <div class="foot">
+    <div class="motto">肠净则栖安，心定则福至</div>
+    <div class="cut"></div>
+    <div class="sig">代谢盟 · 共栖社</div>
+    <div class="cr">本页为共栖社训练营的生活科普小工具，用于建立日常觉察，不是科学量表，不构成医学建议，也不能替代专业诊疗。</div>
+  </div>
+</body>
+</html>

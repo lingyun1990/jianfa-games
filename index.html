@@ -498,7 +498,7 @@ function sfxOpen(){
 var bgm = $("bgm"), musicOn = false;
 function startBgm(){
   try{
-    bgm.load();                                   // iOS 不认 preload，手动触发下载
+    // 必须在用户手势的同步调用栈里直接 play()，iOS 才会解锁声音；前置 load() 会重置解码、反而破坏解锁
     var p = bgm.play();
     if(p && p.then){
       p.then(function(){ musicOn=true; }).catch(function(){     // 缓冲不够被拒 → 等可播再放

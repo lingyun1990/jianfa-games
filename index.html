@@ -15,7 +15,7 @@
     height:100%;}
   body{overflow:hidden;}
 
-  /* ===== 起始页 ===== */
+  /* 起始页 */
   .splash{position:fixed; inset:0; z-index:200; background:radial-gradient(circle at 50% 30%,#fdf8ee,#FBF6EC 70%);
     display:flex; align-items:center; justify-content:center; flex-direction:column; text-align:center; padding:24px;}
   .splash.hide{display:none;}
@@ -27,7 +27,7 @@
   @keyframes breathe{0%,100%{transform:scale(1);opacity:.95}50%{transform:scale(1.04);opacity:1}}
   .splash-note{margin-top:16px; font-size:12px; color:var(--muted);}
 
-  /* ===== 手机容器 ===== */
+  /* 手机容器 */
   .phone{position:relative; max-width:460px; margin:0 auto; height:100dvh; display:flex; flex-direction:column;
     background:var(--paper); overflow:hidden;}
   .topbar{display:flex; align-items:center; justify-content:space-between; padding:14px 18px 8px; flex:none;}
@@ -37,23 +37,17 @@
   .tb-music.off{color:#bdb29c; border-color:#d8cdb6;}
 
   .views{flex:1; position:relative; overflow:hidden;}
-  .view{position:absolute; inset:0; overflow-y:auto; -webkit-overflow-scrolling:touch;
-    display:none; flex-direction:column; padding:6px 18px 18px;}
+  .view{position:absolute; inset:0; overflow:hidden; display:none; flex-direction:column; padding:6px 18px 18px;}
   .view.active{display:flex;}
+  #viewCalc{overflow-y:auto; -webkit-overflow-scrolling:touch;}
 
-  /* ===== 今日之门 ===== */
+  /* 今日之门 */
   .mini-status{display:flex; justify-content:space-between; font-size:12.5px; color:var(--muted);
-    background:#fff; border:1px solid var(--line); border-radius:12px; padding:8px 12px; margin-bottom:10px;}
+    background:#fff; border:1px solid var(--line); border-radius:12px; padding:8px 12px; margin-bottom:10px; flex:none;}
   .mini-status b{color:var(--green); font-weight:500;}
   .mini-status .st{color:var(--orange); font-weight:500;}
-  .seed-row{display:flex; align-items:center; gap:10px; margin-bottom:6px;}
-  .seed-row .seed{width:42px; height:48px; flex:none;}
-  .seed-row .seedtxt{font-size:12.5px; color:var(--muted);}
-  .seed-row .seedtxt b{color:var(--green); font-weight:500;}
-
-  .hero-door{display:flex; justify-content:center; margin:4px 0 6px;}
-  .hero-door svg{width:200px; height:240px;}
-
+  .hero-door{display:flex; justify-content:center; margin:4px 0 6px; flex:none;}
+  .hero-door svg{width:180px; height:216px;}
   .task-card{background:#fff; border:1px solid var(--line); border-radius:18px; padding:16px 16px 18px; margin-top:4px;}
   .task-card .ph{display:inline-block; font-size:12px; color:#fff; background:var(--orange);
     border-radius:20px; padding:2px 11px; margin-bottom:8px;}
@@ -68,49 +62,43 @@
   .btn.ghost{background:#fff; color:var(--green); border:1px solid var(--green);}
   .btn:active{opacity:.85;}
 
-  /* ===== 门径 · 蜿蜒小路 ===== */
-  .path-head{font-size:13px; color:var(--muted); margin:4px 0 10px;}
-  .path-scroll{position:relative; flex:1; overflow-y:auto; padding-bottom:10px;}
-  .path-bg{position:absolute; left:0; top:0; width:100%; height:100%; z-index:0; pointer-events:none;}
-  .doors{position:relative; z-index:1; display:grid; grid-template-columns:repeat(3,1fr); gap:12px 10px;}
-  .doors.r2{direction:rtl;}
-  .doors.r2 > *{direction:ltr;}
-  .dcard{position:relative; background:#fff; border:1px solid var(--line); border-radius:14px;
-    padding:8px 4px 10px; text-align:center; cursor:pointer; transition:transform .15s;}
-  .dcard:active{transform:scale(.96);}
-  .dcard.done{background:var(--green); border-color:var(--green); color:#fff;}
-  .dcard.today{border:2px solid var(--orange);}
-  .dcard.miss{border:1.5px dashed var(--orange);}
-  .dcard.future{background:#f3ecdc; border-style:dashed;}
-  .dcard .darch{width:46px; height:56px; margin:0 auto 4px; display:block;}
-  .dcard .dnum{font-size:12px; font-weight:500;}
-  .dcard.done .dnum{color:#fff;}
-  .dcard .dname{font-size:11px; margin-top:2px; line-height:1.2;}
-  .dcard .dtip{font-size:11px; color:var(--orange); margin-top:2px;}
-  .dcard.future .dtip{color:#bcae93;}
-  .dcard.miss .dtip{color:var(--orange);}
-  .dcard .fog{position:absolute; inset:0; background:rgba(243,236,220,.55); border-radius:14px;
-    display:flex; align-items:center; justify-content:center; font-size:11px; color:#9c917c;}
+  /* 共栖之路 · 群岛 */
+  .road-head{display:flex; align-items:center; justify-content:space-between; font-size:13px; color:var(--muted);
+    margin:4px 0 6px; flex:none;}
+  .road-head .rh-txt b{color:var(--green); font-weight:500;}
+  .mini-btn{background:#fff; border:1px solid var(--green); color:var(--green); border-radius:20px;
+    font-size:12px; padding:5px 12px; cursor:pointer;}
+  .road-map{flex:1; min-height:0; position:relative;}
+  .road-map svg{display:block; width:100%; height:100%;}
 
-  /* ===== 我的共栖 ===== */
-  .me-head{font-size:15px; font-weight:500; color:var(--green); margin:4px 0 8px;}
-  .me-grow{width:200px; height:230px; margin:0 auto;}
-  .me-streak{text-align:center; font-size:14px; color:var(--orange); font-weight:500; margin:4px 0 14px;}
-  .me-streak span{font-size:20px;}
-  .sec-t{font-size:12px; color:var(--muted); margin:14px 2px 8px;}
-  .album{display:grid; grid-template-columns:repeat(3,1fr); gap:10px;}
-  .acell{border-radius:12px; padding:10px 4px; text-align:center; font-size:11px; color:#fff;
-    min-height:60px; display:flex; flex-direction:column; align-items:center; justify-content:center; line-height:1.3;}
-  .acell.lock{background:#f3ecdc; color:#bcae93;}
-  .badges{display:flex; flex-wrap:wrap; gap:7px; margin:6px 0 4px;}
-  .badge{font-size:11px; color:var(--muted); background:#f3ecdc; border-radius:20px; padding:4px 10px;}
-  .badge.on{background:var(--green); color:#fff;}
-  .mile-list{text-align:left;}
-  .mile-list .mi{padding:11px 0; border-bottom:1px dashed var(--line);}
-  .mile-list .mi .mn{font-size:14px; font-weight:500; color:var(--green);}
-  .mile-list .mi .md{font-size:12.5px; color:var(--muted); margin-top:3px;}
+  /* 炎点计算器 */
+  .calc-head{display:flex; align-items:center; gap:14px; margin:6px 0 12px; flex:none;}
+  .calc-lamp{width:74px; height:74px; border-radius:50%; flex:none; display:flex; align-items:center; justify-content:center;
+    color:#fff; font-size:22px; font-weight:500;}
+  .calc-lamp span{font-size:13px; opacity:.85; margin-left:3px;}
+  .calc-status{font-size:14px; color:var(--ink); line-height:1.5;}
+  .calc-status .cs2{font-size:12px; color:var(--muted); margin-top:2px;}
+  .cg{background:#fff; border:1px solid var(--line); border-radius:14px; padding:10px 14px; margin-bottom:10px;}
+  .cg-h{font-size:13.5px; font-weight:500; color:var(--orange); margin-bottom:2px;}
+  .cg-h.g2{color:var(--gold);} .cg-h.g1{color:#854F0B;}
+  .cg-h .note{font-size:11px; color:var(--muted); font-weight:400; margin-left:6px;}
+  .ci{display:flex; align-items:center; gap:10px; padding:8px 0; border-bottom:1px dashed var(--line);}
+  .ci:last-child{border-bottom:none;}
+  .ci .nm{font-size:13.5px; flex:1; color:var(--ink);}
+  .ci .nm .sub{font-size:11px; color:var(--muted); display:block; margin-top:1px;}
+  .ci .ct{font-size:14px; color:var(--green); width:18px; text-align:center; flex:none;}
+  .ci .step{width:28px; height:28px; border-radius:8px; border:1px solid var(--line); background:#fff;
+    font-size:17px; color:var(--ink); cursor:pointer; flex:none;}
+  .ci .step:active{opacity:.6;}
+  .zero-wrap{background:#EAF3DE; border-radius:14px; padding:10px 14px; margin-bottom:10px;}
+  .zero-wrap .zw-h{font-size:13px; font-weight:500; color:#3B6D11; margin-bottom:8px;}
+  .zw-cat{font-size:12px; color:#27500A; margin:8px 0 5px;}
+  .chip{display:inline-block; font-size:12.5px; padding:5px 11px; border-radius:15px; border:1px solid #9fc77f;
+    background:#fff; color:#27500A; margin:3px 5px 3px 0; cursor:pointer;}
+  .chip.on{background:#3B6D11; color:#fff; border-color:#3B6D11;}
+  .foot{text-align:center; font-size:11px; color:#a99f8c; margin-top:14px; line-height:1.6;}
 
-  /* ===== 底部导航 ===== */
+  /* 底部导航 */
   .tabbar{display:flex; flex:none; border-top:1px solid var(--line); background:var(--paper);}
   .tab{flex:1; padding:11px 0 13px; border:none; background:none; cursor:pointer;
     font-size:13px; color:var(--muted); display:flex; flex-direction:column; align-items:center; gap:3px;}
@@ -118,12 +106,12 @@
   .tab.on{color:var(--green); font-weight:500;}
   .tab.on .ic{transform:scale(1.12);}
 
-  /* ===== 弹层 ===== */
+  /* 弹层 */
   .modal{position:fixed; inset:0; background:rgba(40,36,30,.5); display:none;
     align-items:center; justify-content:center; padding:20px; z-index:120;}
   .modal.show{display:flex;}
   .mbox{background:var(--paper); border-radius:20px; padding:20px 18px; width:100%;
-    max-width:340px; max-height:88vh; overflow:auto; text-align:center; position:relative;}
+    max-width:340px; max-height:90vh; overflow:auto; text-align:center; position:relative;}
   .mbox .rt{font-size:13px; color:var(--green); letter-spacing:2px; margin-bottom:10px;}
   .qt{font-size:13px; color:var(--muted); margin-bottom:10px;}
   .qstmt{font-size:15px; line-height:1.65; color:var(--ink); margin-bottom:16px; text-align:left;}
@@ -136,26 +124,34 @@
   .qfb.ok{color:var(--green);}
   .qfb.no{color:var(--red);}
   .qfb .why{color:var(--muted); margin-top:6px; display:block; border-top:1px dashed var(--line); padding-top:8px;}
-  .rdisc{width:84px; height:84px; border-radius:50%; margin:10px auto 8px;
+  .rdisc{width:84px; height:84px; border-radius:50%; margin:6px auto 8px;
     display:flex; align-items:center; justify-content:center; color:#fff; font-size:14px;
     font-weight:500; padding:8px; line-height:1.25;}
   .rname{font-size:16px; font-weight:500;}
   .rword{font-size:13px; color:var(--muted); line-height:1.6; margin-top:8px;
     border-top:1px dashed var(--line); padding-top:10px;}
+  .revwhy{font-size:12.5px; color:var(--muted); line-height:1.6; text-align:left; margin-top:12px;
+    border-top:1px dashed var(--line); padding-top:10px;}
+  .revwhy b{color:var(--orange);}
+  .album{display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:6px;}
+  .acell{border-radius:12px; padding:10px 4px; text-align:center; font-size:11px; color:#fff;
+    min-height:58px; display:flex; flex-direction:column; align-items:center; justify-content:center; line-height:1.3;}
+  .acell.lock{background:#f3ecdc; color:#bcae93;}
+  .sec-t{font-size:12px; color:var(--muted); margin:14px 2px 8px; text-align:left;}
+  .mile-list .mi{padding:11px 0; border-bottom:1px dashed var(--line);}
+  .mile-list .mi .mn{font-size:14px; font-weight:500; color:var(--green);}
+  .mile-list .mi .md{font-size:12.5px; color:var(--muted); margin-top:3px;}
+  .badges{display:flex; flex-wrap:wrap; gap:7px; margin:6px 0 4px; justify-content:center;}
+  .badge{font-size:11px; color:var(--muted); background:#f3ecdc; border-radius:20px; padding:4px 10px;}
+  .badge.on{background:var(--green); color:#fff;}
+  .reset{text-align:center; font-size:12px; color:var(--muted); margin-top:12px; cursor:pointer;}
 
-  .toast{position:fixed; left:50%; bottom:80px; transform:translateX(-50%);
-    background:rgba(40,36,30,.92); color:#fff; font-size:13px; padding:10px 16px;
-    border-radius:22px; z-index:199; display:none; max-width:80%; text-align:center;}
-  .toast.show{display:block; animation:tin .25s ease-out;}
-  @keyframes tin{0%{opacity:0;transform:translate(-50%,8px)}100%{opacity:1;transform:translate(-50%,0)}}
-
-  /* ===== 开门爆发 ===== */
+  /* 开门爆发 */
   .celebrate{position:fixed; inset:0; z-index:160; background:rgba(30,26,20,.78);
     display:none; align-items:center; justify-content:center; flex-direction:column; padding:20px;}
   .celebrate.show{display:flex;}
   .cel-stage{position:relative; width:260px; height:300px; display:flex; align-items:center; justify-content:center;}
-  .cel-burst{position:absolute; left:50%; top:48%; width:240px; height:240px; margin:-120px 0 0 -120px;
-    z-index:1; opacity:0;}
+  .cel-burst{position:absolute; left:50%; top:48%; width:240px; height:240px; margin:-120px 0 0 -120px; z-index:1; opacity:0;}
   .cel-burst.go{animation:ring2 .85s ease-out both;}
   @keyframes ring2{0%{transform:scale(.3);opacity:.95}100%{transform:scale(1.9);opacity:0}}
   .cel-ring{position:absolute; left:50%; top:48%; width:120px; height:120px; margin:-60px 0 0 -60px;
@@ -185,8 +181,11 @@
   .cel-btn{position:relative; z-index:5; max-width:240px; margin-top:22px; opacity:0;}
   .cel-btn.go{animation:wordIn .4s ease-out .5s both;}
 
-  .foot{text-align:center; font-size:11px; color:#a99f8c; margin-top:16px; line-height:1.6;}
-  .reset{text-align:center; font-size:12px; color:var(--muted); margin-top:10px; cursor:pointer;}
+  .toast{position:fixed; left:50%; bottom:80px; transform:translateX(-50%);
+    background:rgba(40,36,30,.92); color:#fff; font-size:13px; padding:10px 16px;
+    border-radius:22px; z-index:199; display:none; max-width:80%; text-align:center;}
+  .toast.show{display:block; animation:tin .25s ease-out;}
+  @keyframes tin{0%{opacity:0;transform:translate(-50%,8px)}100%{opacity:1;transform:translate(-50%,0)}}
 </style>
 </head>
 <body>
@@ -225,10 +224,6 @@
         <span>已开 <b id="stOpen">0</b> / 21</span>
         <span class="st">连闯 <span id="stStreak">0</span></span>
       </div>
-      <div class="seed-row">
-        <div class="seed" id="seedMini"></div>
-        <div class="seedtxt">共栖生命 · 你养了 <b id="seedDays">0</b> 天</div>
-      </div>
       <div class="hero-door">
         <svg viewBox="0 0 200 240">
           <path d="M40 230 L40 90 A60 60 0 0 1 160 90 L160 230 Z" fill="#FBF6EC" stroke="#14705A" stroke-width="3"/>
@@ -236,44 +231,31 @@
           <rect x="104" y="102" width="50" height="124" rx="4" fill="#D2703C" stroke="#14705A" stroke-width="2"/>
           <line x1="100" y1="102" x2="100" y2="226" stroke="#14705A" stroke-width="2"/>
           <circle cx="90" cy="166" r="4" fill="#C9A24B"/><circle cx="110" cy="166" r="4" fill="#C9A24B"/>
-          <text id="heroDoorName" x="100" y="172" text-anchor="middle" font-family="serif" font-size="17" fill="#FBF6EC" font-weight="500">换油</text>
+          <text id="heroDoorName" x="100" y="172" text-anchor="middle" font-family="serif" font-size="15" fill="#FBF6EC" font-weight="500">换油</text>
         </svg>
       </div>
       <div class="task-card" id="todayCard"></div>
     </section>
 
-    <!-- 门径 -->
-    <section class="view" id="viewPath">
-      <div class="path-head">门径 · 21 道门，沿小路一路开过去</div>
-      <div class="path-scroll" id="pathScroll">
-        <svg class="path-bg" viewBox="0 0 320 980" preserveAspectRatio="none">
-          <path d="M160 8 Q300 70 160 140 Q20 210 160 280 Q300 350 160 420 Q20 490 160 560 Q300 630 160 700 Q20 770 160 840 Q300 910 160 970"
-            fill="none" stroke="#cfe3d8" stroke-width="7" stroke-dasharray="2 14" stroke-linecap="round"/>
-        </svg>
-        <div class="doors" id="doors"></div>
+    <!-- 共栖之路 -->
+    <section class="view" id="viewRoad">
+      <div class="road-head">
+        <span class="rh-txt">共栖之路 · 已点亮 <b id="roadLit">0</b> / 21</span>
+        <button class="mini-btn" id="albumBtn">藏品册</button>
       </div>
+      <div class="road-map" id="roadMap"></div>
     </section>
 
-    <!-- 我的共栖 -->
-    <section class="view" id="viewMe">
-      <div class="me-head">我的共栖</div>
-      <div class="me-grow" id="meGrow"></div>
-      <div class="me-streak" id="meStreak">连闯 <span>0</span> 天</div>
-      <div class="sec-t">藏品册 · 21 件收获</div>
-      <div class="album" id="albumGrid"></div>
-      <div class="sec-t">里程碑</div>
-      <div class="mile-list" id="mileList"></div>
-      <div class="sec-t">徽章</div>
-      <div class="badges" id="badges"></div>
-      <div class="foot">生活打卡小工具 · 不是科学量表 · 不构成医学建议<br>数据只存在你这台手机，不会上传。</div>
-      <div class="reset" id="resetBtn">重新开始（清空进度）</div>
+    <!-- 炎点计算器 -->
+    <section class="view" id="viewCalc">
+      <div id="calcBox"></div>
     </section>
   </div>
 
   <nav class="tabbar">
     <button class="tab on" data-v="today"><span class="ic">⛩</span>今日之门</button>
-    <button class="tab" data-v="path"><span class="ic">❧</span>门径</button>
-    <button class="tab" data-v="me"><span class="ic">❀</span>我的共栖</button>
+    <button class="tab" data-v="road"><span class="ic">⛰</span>共栖之路</button>
+    <button class="tab" data-v="calc"><span class="ic">✦</span>炎点计算器</button>
   </nav>
 </div>
 
@@ -291,14 +273,15 @@
   </div>
 </div>
 
-<!-- 查看已开门 -->
-<div class="modal" id="view">
+<!-- 回看已开门 -->
+<div class="modal" id="review">
   <div class="mbox">
-    <div class="rt" id="viewT">第 X 道门</div>
-    <div class="rdisc" id="viewDisc"></div>
-    <div class="rname" id="viewName"></div>
-    <div class="rword" id="viewWord" style="border:none;"></div>
-    <button class="btn ghost" id="viewClose" style="margin-top:14px;">知道了</button>
+    <div class="rt" id="revT">第 X 道门</div>
+    <div class="rdisc" id="revDisc"></div>
+    <div class="rname" id="revName"></div>
+    <div class="rword" id="revWord" style="border:none;"></div>
+    <div class="revwhy" id="revWhy"></div>
+    <button class="btn ghost" id="revClose" style="margin-top:14px;">知道了</button>
   </div>
 </div>
 
@@ -309,6 +292,20 @@
     <div class="qstmt" id="supText" style="text-align:center;"></div>
     <button class="btn" id="supYes">补开，打勾！</button>
     <button class="btn ghost" id="supNo" style="margin-top:10px;">先不</button>
+  </div>
+</div>
+
+<!-- 藏品册 -->
+<div class="modal" id="albumModal">
+  <div class="mbox">
+    <div class="rt">藏品册 · 21 件收获</div>
+    <div class="album" id="albumGrid2"></div>
+    <div class="sec-t">里程碑</div>
+    <div class="mile-list" id="mileList2"></div>
+    <div class="sec-t">徽章</div>
+    <div class="badges" id="badges2"></div>
+    <button class="btn ghost" id="albumClose" style="margin-top:14px;">关闭</button>
+    <div class="reset" id="resetBtn2">重新开始（清空进度）</div>
   </div>
 </div>
 
@@ -357,86 +354,10 @@
 
 <script>
 /* ===================== 数据 ===================== */
-var TASKS = [
-  {d:1, ph:"换", t:"换掉厨房那桶油", w:"把大豆油、玉米油、葵花籽油、菜籽油先收起来，炒菜换成初榨橄榄油、茶油或猪油（对，传统的反而更稳）。", why:"精炼种子油 Omega-6 极高，精炼过程还会产生氧化脂质。它不是毒药，是每天都在浇的那点油——身体认不出，只好一直发炎。",
-   name:"新油瓶", rank:1, word:"这一手，直接把天平拨回来一格。"},
-  {d:2, ph:"断", t:"断掉那一口甜", w:"今天不喝任何甜饮料，也不吃甜点，换白水或无糖茶。想喝凉的，加片柠檬。", why:"一瓶含糖饮料的糖就超了每天的推荐量。血糖过山车一走，炎症因子跟着上来；糖喂壮的是产内毒素的坏菌。",
-   name:"清水盏", rank:1, word:"连甜的都放得下，你比自己以为的更稳。"},
-  {d:3, ph:"断", t:"断掉深加工食品", w:"买之前翻到背面看配料表，超过 5 行的放回去。今天不碰零食、香肠、速食。", why:"乳化剂、防腐剂会磨薄肠道外面那层保护黏液。配料表越长，身体要处理的分子碎片越多。",
-   name:"澄明眼", rank:1, word:"从今天起，配料表骗不了你了。"},
-  {d:4, ph:"断", t:"断麸质 7 天", w:"从今天起 7 天不吃任何含麸质的食物，不碰面包馒头面条饼干蛋糕啤酒。", why:"现代小麦的麸质又密又韧，像一团钢丝球；里面的麦醇溶蛋白还会打开肠道紧密连接。这道门被反复敲开、关不上，低度炎症就起来了。",
-   name:"断麸令", rank:1, word:"把钢丝球先放下，身体会自己解开那团乱麻。"},
-  {d:5, ph:"断", t:"断掉一顿外卖", w:"今天至少有一顿是自己做的。哪怕只是煮个面，加把青菜、磕个蛋。", why:"外面吃的、糕点、沙拉酱，大概率用的都是种子油——因为它便宜到没有对手。",
-   name:"自家灶", rank:1, word:"灶火一冒起来，身体就认你这一顿了。"},
-  {d:6, ph:"断", t:"断掉今晚的熬夜", w:"23:30 前躺下，手机放到卧室外面。", why:"睡不够 7 小时，炎症指标真的会升高。这是成本最低、回报最高的一件事。",
-   name:"安眠枕", rank:1, word:"这一夜，是给炎症最直接的一记刹车。"},
-  {d:7, ph:"断", t:"回看这一周", w:"写下你真正断掉的那一样。一句话就行。", why:"能说得出来的改变，才是真的改变。第一周你只做一件事：先把火关小。",
-   name:"断·金钥匙", rank:2, word:"第一周走完。你不是在忍，你是在重建。"},
-  {d:8, ph:"换", t:"把主食换掉一半", w:"白米白面里掺一半杂粮杂豆——糙米、燕麦、鹰嘴豆都行。", why:"精制碳水升糖快、纤维还少；好菌饿着，修屏障的养料丁酸也断了供。",
-   name:"杂粮穗", rank:1, word:"一半杂粮下肚，好菌就有口粮了。"},
-  {d:9, ph:"换", t:"把下午的甜点换掉", w:"换成一小把原味坚果，或者一个水果。", why:"糖喂壮的是产内毒素的坏菌；坚果里的好脂肪，反而是身体真正需要的。",
-   name:"原味果", rank:1, word:"下午三点那把坚果，比甜点更懂你。"},
-  {d:10, ph:"换", t:"把一次蛋白换掉", w:"用深海鱼、豆制品或鸡蛋，替换一次红肉或加工肉。", why:"加工肉里的添加物和高饱和脂肪，是炎症的助燃剂。换成鱼和豆，天平就往回走一格。",
-   name:"平衡秤", rank:2, word:"Omega 的天平，第一次往不点火的那边倾。"},
-  {d:11, ph:"换", t:"把餐盘换得更花", w:"让植物性食物占餐盘一半以上，颜色不少于三种。", why:"深绿蔬菜、浆果、番茄、坚果里，天然的有益成分最多。不是吃素，是让盘子好看。",
-   name:"五色盘", rank:1, word:"盘子里颜色越多，身体里的火就越少。"},
-  {d:12, ph:"换", t:"把重口酱料换掉一部分", w:"用姜黄、黑胡椒、蒜、香草，替掉一部分沙拉酱、烧烤酱。", why:"酱料里往往藏着糖和种子油，一勺就把你刚省下来的都还回去了。",
-   name:"香草束", rank:1, word:"你开始用香料说话，而不是用酱料。"},
-  {d:13, ph:"换", t:"换掉「猛补」的思路", w:"把家里那堆保健品先归置到一处，今天不加新的，想清楚身体真正缺的是哪一样。", why:"加法养生让人焦虑，也让人错过真正的原因。先把不需要的拿走，身体才知道要什么。",
-   name:"减法剪", rank:1, word:"剪掉那些不需要的，身体才看得见需要什么。"},
-  {d:14, ph:"换", t:"回看第二周", w:"把你换掉的那样写下来，顺便告诉自己：你已经会自己判断了。", why:"第二周的目标不是听话，是学会甄选——以后自己就能挑，不必一直依赖别人。",
-   name:"甄选镜", rank:2, word:"第二周走完。你已经会自己挑了。"},
-  {d:15, ph:"修", t:"给菌群加一份发酵食物", w:"今天加一份无糖酸奶、纳豆或泡菜。", why:"第三周开始给原料。发酵食物里的活菌，是修墙队伍里的工友。",
-   name:"发酵坛", rank:1, word:"工友到位，队伍才算真的组起来。"},
-  {d:16, ph:"修", t:"把纤维吃够", w:"膳食纤维吃到 25 克左右：杂粮、豆类、深绿蔬菜一起上。", why:"纤维是好菌的口粮。缺了它，补进去的菌也留不住——只补不喂，等于白补。",
-   name:"纤维束", rank:1, word:"纤维吃够，等于给好菌发了工资。"},
-  {d:17, ph:"修", t:"加一份深绿色蔬菜", w:"西兰花、菠菜、油麦菜，任选一份。", why:"深绿色蔬菜里的叶绿素和抗氧化物，是给屏障的修复材料。",
-   name:"深绿叶", rank:2, word:"这一口深绿，是给屏障的修复材料。"},
-  {d:18, ph:"修", t:"主动加一道 Omega-3", w:"深海鱼、核桃、亚麻籽、奇亚籽，任选一样加进今天的饭里。", why:"把 Omega-6 和 Omega-3 的天平往回拉。这一步不是补品的事，是食物结构的事。",
-   name:"深海鱼", rank:1, word:"天平又往回收了一格。"},
-  {d:19, ph:"修", t:"把早餐重做一遍", w:"别再只有白粥咸菜——加一份蛋白（蛋、豆浆、酸奶）加一份纤维。", why:"一份只有碳水的早餐，是给身体一记血糖闷棍；加了蛋白和纤维，它才稳得住一上午。",
-   name:"晨光碗", rank:1, word:"早餐重做一遍，一上午都稳。"},
-  {d:20, ph:"修", t:"给自己做一顿修墙餐", w:"一顿完整的减法餐：一份蛋白、两拳蔬菜、一拳杂粮，用换过的油做。", why:"把这三周学的，落到一顿饭里。会做一顿，就会做一辈子。",
-   name:"修墙砖", rank:2, word:"你会做一顿，就会做一辈子。"},
-  {d:21, ph:"修", t:"结营日：回看这 21 道门", w:"把第一天的自己看一眼，再给今晚的火苗打一次分。", why:"屏障不是一天松的，也不会一天修好。但今天少往身体里加一样，它就稳一分。",
-   name:"共栖之树", rank:3, word:"21 道门走完：一团火，被你养成了 21 株小苗。"}
-];
-
-var QDATA = {
-  1: [
-    { q:"大豆油、玉米油、葵花籽油这些常见种子油，Omega-6 含量很高，天天吃容易加重身体的慢性炎症。", a:true,
-      why:"身体需要 Omega-6，但只需要一点点。现在很多家庭 Omega-6 和 Omega-3 的比例到了 20:1 甚至更高——天平歪了，身体的「炎症开关」就一直被按着，关不掉。" },
-    { q:"猪油、黄油碰都不能碰，比种子油还可怕。", a:false,
-      why:"要看用法和来源。草饲猪油、黄油耐高温、性质稳定，高温烹调其实比氧化的种子油更合适。真正要清走的是精炼种子油。" },
-    { q:"外卖、零食、糕点、沙拉酱里，大概率都藏着种子油——因为它便宜到没有对手。", a:true,
-      why:"精炼种子油无处不在，不只是家里炒菜才有。你以为自己吃得挺健康，其实每天每顿都在往身体里「浇油」。" }
-  ],
-  2: [
-    { q:"一杯中杯全糖奶茶含糖约 50 克，而世卫组织建议一天添加糖不超过 25 克——一杯奶茶就是两天的量。", a:true,
-      why:"你一杯就干了两天。而且糖藏在所有地方：酱料、酸奶、面包，你以为没吃糖，其实从早到晚一口没停过。" },
-    { q:"蜂蜜、红糖、黑糖是「天然的糖」，这 21 天里可以照常喝。", a:false,
-      why:"身体不区分「天然的糖」和「添加的糖」，进到血液里是一样的。这 21 天里一律断。" },
-    { q:"肠道里的坏菌最爱吃的口粮是糖，好菌最爱吃的是膳食纤维。", a:true,
-      why:"好菌吃蔬菜粗粮里的纤维，坏菌吃糖。你吃糖，等于给坏菌开自助餐——坏菌疯长，胀气、放屁臭、便秘就都来了。" }
-  ],
-  3: [
-    { q:"包装上写着「0 反式脂肪酸」，就说明这个食品真的不含反式脂肪。", a:false,
-      why:"国标规定每 100 克不超过 0.3 克就能标 0。配料表里只要有「氢化」两个字，说明还是用了。记住铁律：有「氢化」就不要吃。" },
-    { q:"买包装食品，配料表排前三位的有白砂糖、果葡糖浆、氢化植物油，说明它的本质就是糖和油。", a:true,
-      why:"前三位决定本质。糖、油、盐排在前面的，先放下。好酸奶的配料表就两样：生牛乳、乳酸菌。" },
-    { q:"有些乳化剂会偷偷拆掉肠道的黏液层——也就是肠道的「防潮层」。", a:true,
-      why:"研究发现卡拉胶、羧甲基纤维素这类乳化剂可能侵蚀肠道黏液层。防潮层一破，免疫系统就得天天救火，全身慢性炎症就这么起来了。" }
-  ],
-  4: [
-    { q:"现代小麦和老祖宗吃的小麦，麸质已经不一样了——现在的麸质蛋白更多、结构也更难分解。", a:true,
-      why:"上世纪五六十年代的「绿色革命」，为了高产、抗倒伏，培育出了矮秆小麦。产量上去了，代价是麸质蛋白含量大幅增加、结构也变了。" },
-    { q:"反正都是小麦磨的面，传统面食和现在的面食，对肠道来说没什么两样。", a:false,
-      why:"差在「预处理」。传统面食要长时间自然发酵，微生物先帮你分解掉一部分麸质；现在快速发酵粉半小时就发起来，麸质基本没动。" },
-    { q:"肠道屏障那些「门」被反复敲开之后，没消化完的大分子和毒素会进到血液里，免疫系统一直拉警报——这种炎症不疼不痒，你几乎感觉不到。", a:true,
-      why:"麸质里的麦醇溶蛋白会刺激肠道释放「连蛋白」——那就是打开紧密连接的开关。门关不上，就是肠漏。这就是低度炎症：一把不冒烟的文火，烧久了器官才跟着出问题。" }
-  ]
-};
-function hasQ(d){ return !!(QDATA[d] && QDATA[d].length); }
+var TASKS = [{"d": 1, "ph": "换", "t": "换掉厨房那桶油", "w": "把大豆油、玉米油、葵花籽油、菜籽油先收起来，炒菜换成初榨橄榄油、茶油或猪油（对，传统的反而更稳）。", "why": "精炼种子油 Omega-6 极高，精炼过程还会产生氧化脂质。它不是毒药，是每天都在浇的那点油——身体认不出，只好一直发炎。", "name": "新油瓶", "rank": 1, "word": "这一手，直接把天平拨回来一格。"}, {"d": 2, "ph": "断", "t": "断掉那一口甜", "w": "今天不喝任何甜饮料，也不吃甜点，换白水或无糖茶。想喝凉的，加片柠檬。", "why": "一瓶含糖饮料的糖就超了每天的推荐量。血糖过山车一走，炎症因子跟着上来；糖喂壮的是产内毒素的坏菌。", "name": "清水盏", "rank": 1, "word": "连甜的都放得下，你比自己以为的更稳。"}, {"d": 3, "ph": "断", "t": "看懂配料表", "w": "买之前翻到背面看配料表，超过 5 行的放回去。今天不碰零食、香肠、速食。", "why": "乳化剂、防腐剂会磨薄肠道外面那层保护黏液。配料表越长，身体要处理的分子碎片越多。", "name": "澄明眼", "rank": 1, "word": "从今天起，配料表骗不了你了。"}, {"d": 4, "ph": "断", "t": "断麸质 7 天", "w": "从今天起 7 天不吃任何含麸质的食物，不碰面包馒头面条饼干蛋糕啤酒。", "why": "现代小麦的麸质又密又韧，像一团钢丝球；里面的麦醇溶蛋白还会打开肠道紧密连接。这道门被反复敲开、关不上，低度炎症就起来了。", "name": "断麸令", "rank": 1, "word": "把钢丝球先放下，身体会自己解开那团乱麻。"}, {"d": 5, "ph": "断", "t": "断掉乳制品", "w": "今天试着一天不碰牛奶、酸奶、奶酪、冰淇淋；解渴喝茶水或温水，想吃奶香用无糖椰奶代替。", "why": "乳制品里的 A1 酪蛋白和乳糖，对不少人来说是肠道的隐形刺激——黏膜还没修好时，先让它歇一歇。", "name": "自家灶", "rank": 1, "word": "今天给肠道放了个小假。"}, {"d": 6, "ph": "断", "t": "断掉酒和代糖", "w": "今天不沾任何酒，也不碰含代糖（赤藓糖醇、三氯蔗糖等）的饮料和零食。", "why": "酒精直接刺激肠道和肝脏；人工代糖会扰乱菌群信号，让身体误以为吃了甜的。两者先按下暂停。", "name": "安眠枕", "rank": 1, "word": "今晚的身体，清净了。"}, {"d": 7, "ph": "复", "t": "回看第一周", "w": "翻翻前六道门，写下你真正坚持下来的那一样，一句话就行。", "why": "能说得出来的改变才是真的改变。第一周只做一件事：先把火关小。", "name": "断·金钥匙", "rank": 2, "word": "第一周走完。你不是在忍，你是在重建。"}, {"d": 8, "ph": "换", "t": "守住 12 小时进食窗口", "w": "把一天的吃喝收进 12 小时内（比如早 8 点到晚 8 点），其余时间只喝水。", "why": "给肠道留出夜间禁食的修复时段，菌群和屏障都能喘口气，比少吃一顿更省事。", "name": "杂粮穗", "rank": 1, "word": "留一段空窗，身体自己修。"}, {"d": 9, "ph": "换", "t": "补上 Omega-3", "w": "今天吃一次深海鱼（三文鱼、鲭鱼、沙丁鱼），或一勺亚麻籽、一把核桃。", "why": "Omega-3 生成的是抗炎因子，能把偏掉的 Omega 天平往回拉一点。", "name": "深海鱼", "rank": 1, "word": "天平又往回收了一格。"}, {"d": 10, "ph": "换", "t": "吃够五色蔬菜", "w": "今天让餐盘里出现至少三种颜色的蔬菜：深绿、橙黄、紫红都算。", "why": "不同颜色的植物带来不同有益成分，颜色越多，身体收到的修护信号越全。", "name": "五色盘", "rank": 1, "word": "盘子里颜色越多，身体里的火就越少。"}, {"d": 11, "ph": "换", "t": "加一份发酵食物", "w": "今天加一份无糖酸奶、纳豆、味噌或泡菜。", "why": "发酵食物里的活菌，是修墙队伍里的工友，帮好菌把地盘占回来。", "name": "发酵坛", "rank": 1, "word": "工友到位，队伍才算真的组起来。"}, {"d": 12, "ph": "换", "t": "好肉换加工肉", "w": "用新鲜鱼、蛋、豆制品，替换一次香肠、培根、午餐肉。", "why": "加工肉里的添加物和高饱和脂肪是炎症助燃剂；换成新鲜的，天平就往回走一格。", "name": "平衡秤", "rank": 2, "word": "一次替换，火就小一分。"}, {"d": 13, "ph": "修", "t": "把睡眠补回来", "w": "今晚 23:30 前躺下，手机放卧室外；睡够 7 小时。", "why": "睡不够，炎症指标真的会升高。这是成本最低、回报最高的一件事。", "name": "晨光碗", "rank": 1, "word": "这一夜，是给炎症最直接的一记刹车。"}, {"d": 14, "ph": "复", "t": "回看第二周", "w": "写下这两周你换掉的那一样，告诉自己：你已经会自己判断了。", "why": "第二周的目标不是听话，是学会甄选——以后自己就能挑，不必一直依赖别人。", "name": "甄选镜", "rank": 2, "word": "第二周走完。你已经会自己挑了。"}, {"d": 15, "ph": "复", "t": "再回看第一周", "w": "回头看第一天那桶油和那口甜，想想现在还馋不馋。", "why": "复习是为了确认改变已经长进习惯里，而不是靠意志力硬撑。", "name": "减法剪", "rank": 1, "word": "你回看时，发现它已经不费劲了。"}, {"d": 16, "ph": "修", "t": "修肠脑轴", "w": "今天加一份深绿叶菜，并留 10 分钟让自己安静下来，不刷手机。", "why": "肠道和脑子靠同一条线说话；好菌和好心情互相喂养，安静片刻也是在修。", "name": "深绿叶", "rank": 2, "word": "你给肠脑轴，松了松弦。"}, {"d": 17, "ph": "修", "t": "修肠心轴", "w": "做一件让自己松下来的事——慢走、深呼吸，或跟人说句软话。", "why": "长期紧绷会让肠道同样绷着；放松不是偷懒，是给这条轴松绑。", "name": "纤维束", "rank": 1, "word": "心一稳，肠也跟着稳。"}, {"d": 18, "ph": "修", "t": "修肠皮肤轴", "w": "今天多喝两杯水、吃够蔬菜，少熬一次夜，让皮肤透一口气。", "why": "皮肤是肠道的镜子，里面干净了，外面才透亮。", "name": "深海鱼", "rank": 1, "word": "皮肤是肠道的镜子，今天擦亮了。"}, {"d": 19, "ph": "修", "t": "修肠肝轴", "w": "今天少碰酒精和加工零食，给肝脏减负一整天。", "why": "肝和肠一起处理身体里的代谢垃圾，先把入口的源头掐住。", "name": "晨光碗", "rank": 1, "word": "肝肠同清，今天顺了。"}, {"d": 20, "ph": "复", "t": "回看第三周", "w": "把这一周修过的四道轴在心里过一遍，挑一个最容易坚持的留下。", "why": "第三周是收口，不是加码；留下一个，就够。", "name": "修墙砖", "rank": 2, "word": "第三周走完，墙结实了一点。"}, {"d": 21, "ph": "结", "t": "结营总复习", "w": "回看全部 21 道门，选今天还想再做一遍的那一道。", "why": "结营不是结束，是把火养成了习惯；你手里已有 21 株小苗。", "name": "共栖之树", "rank": 3, "word": "21 道门走完：一团火，被你养成了 21 株小苗。"}];
+var QDATA = {"1": {"qs": [{"q": "大豆油、玉米油、葵花籽油这些常见种子油，Omega-6 含量很高，天天吃容易加重身体的慢性炎症。", "a": true, "why": "身体需要 Omega-6，但只需要一点点。现在很多家庭 Omega-6 和 Omega-3 的比例到了 20:1 甚至更高——天平歪了，身体的「炎症开关」就一直被按着，关不掉。"}, {"q": "猪油、黄油碰都不能碰，比种子油还可怕。", "a": false, "why": "要看用法和来源。草饲猪油、黄油耐高温、性质稳定，高温烹调其实比氧化的种子油更合适。真正要清走的是精炼种子油。"}, {"q": "外卖、零食、糕点、沙拉酱里，大概率都藏着种子油——因为它便宜到没有对手。", "a": true, "why": "精炼种子油无处不在，不只是家里炒菜才有。你以为自己吃得挺健康，其实每天每顿都在往身体里「浇油」。"}], "spares": [{"q": "家里炒菜换油，第一步不用买齐，先把最常用的一瓶换成橄榄油、猪油或椰子油就行。", "a": true, "why": "对，不用一步到位。一瓶橄榄油几十块够用一个月，21 天里性价比最高的动作就是它。"}, {"q": "手划破了周围又红又肿，这种急性炎症是坏事，对身体只有伤害。", "a": false, "why": "急性炎症是身体在打仗、在修复，伤口好了它就退了——这是好事。真正要防的是看不见、一直慢慢烧的慢性炎症。"}, {"q": "想补 Omega-3、把炎症天平往回拉，可以多吃深海鱼、核桃、亚麻籽。", "a": true, "why": "Omega-3 生成的是抗炎因子，深海鱼、亚麻籽、奇亚籽都是好来源，每周吃两三次深海鱼就很好。"}]}, "2": {"qs": [{"q": "一杯中杯全糖奶茶含糖约 50 克，而世卫组织建议一天添加糖不超过 25 克——一杯奶茶就是两天的量。", "a": true, "why": "你一杯就干了两天。而且糖藏在所有地方：酱料、酸奶、面包，你以为没吃糖，其实从早到晚一口没停过。"}, {"q": "蜂蜜、红糖、黑糖是「天然的糖」，这 21 天里可以照常喝。", "a": false, "why": "身体不区分「天然的糖」和「添加的糖」，进到血液里是一样的。这 21 天里一律断。"}, {"q": "肠道里的坏菌最爱吃的口粮是糖，好菌最爱吃的是膳食纤维。", "a": true, "why": "好菌吃蔬菜粗粮里的纤维，坏菌吃糖。你吃糖，等于给坏菌开自助餐——坏菌疯长，胀气、放屁臭、便秘就都来了。"}], "spares": [{"q": "完整水果的糖是天然糖、有纤维裹着，这 21 天里一天吃 1~2 个拳头大小的量是可以的。", "a": true, "why": "可以吃。但果汁不行——纤维没了、糖吸收太快，等于一杯糖水。"}, {"q": "精制碳水进肚子几乎不用消化，几分钟就变成葡萄糖冲进血液，血糖像坐过山车。", "a": true, "why": "对。所以白米饭、白面条、白馒头要减半——空出来的那半碗，用菜填。"}, {"q": "断糖前一两天没力气、头疼，说明身体被搞坏了，得赶紧吃点甜的。", "a": false, "why": "别慌，这是身体在切换供能方式的过渡反应，通常两三天就缓过来。蔬菜和蛋白质吃够就行。"}]}, "3": {"qs": [{"q": "包装上写着「0 反式脂肪酸」，就说明这个食品真的不含反式脂肪。", "a": false, "why": "国标规定每 100 克不超过 0.3 克就能标 0。配料表里只要有「氢化」两个字，说明还是用了。记住铁律：有「氢化」就不要吃。"}, {"q": "买包装食品，配料表排前三位的有白砂糖、果葡糖浆、氢化植物油，说明它的本质就是糖和油。", "a": true, "why": "前三位决定本质。糖、油、盐排在前面的，先放下。好酸奶的配料表就两样：生牛乳、乳酸菌。"}, {"q": "有些乳化剂会偷偷拆掉肠道的黏液层——也就是肠道的「防潮层」。", "a": true, "why": "研究发现卡拉胶、羧甲基纤维素这类乳化剂可能侵蚀肠道黏液层。防潮层一破，免疫系统就得天天救火，全身慢性炎症就这么起来了。"}], "spares": [{"q": "配料表越长越好，说明营养成分越全面。", "a": false, "why": "反了——配料表越短越好，名字越能看懂越好，保质期越短越好。长到读不懂的，是「食品工业产品」，不是食物。"}, {"q": "真正的好面包，保质期两三天到一周才正常，放久了会硬、会长霉。", "a": true, "why": "对，食物放久了会坏才是对的表现。保质期 30 天、60 天不坏的，才是要留心的。"}, {"q": "一天下来发现超市里能买的东西没几样，说明这趟白逛了。", "a": false, "why": "这就对了！这个发现本身就是 21 天里最值钱的东西之一——你终于分清了什么是食物，什么是「科技很活」。"}]}, "4": {"qs": [{"q": "现代小麦和老祖宗吃的小麦，麸质已经不一样了——现在的麸质蛋白更多、结构也更难分解。", "a": true, "why": "上世纪五六十年代的「绿色革命」，为了高产、抗倒伏，培育出了矮秆小麦。产量上去了，代价是麸质蛋白含量大幅增加、结构也变了。老祖宗那点麸质像一根细绳子，肠道解得开；现在这一团，更像钢丝球。"}, {"q": "反正都是小麦磨的面，传统面食和现在的面食，对肠道来说没什么两样。", "a": false, "why": "差在「预处理」。传统面食要长时间自然发酵——老面、天然酵母，有时一天一夜，微生物先帮你分解掉一部分麸质；麦子还会先泡、微微发芽。现在快速发酵粉半小时就发起来，麸质基本没动。以前吃进去是「半成品」，现在是「原装钢丝球」。"}, {"q": "肠道屏障那些「门」被反复敲开之后，没消化完的大分子和毒素会进到血液里，免疫系统一直拉警报——这种炎症不疼不痒，你几乎感觉不到。", "a": true, "why": "麸质里的麦醇溶蛋白会刺激肠道释放「连蛋白」——那就是打开紧密连接的开关。门关不上，就是肠漏。80% 的免疫细胞驻扎在肠道周围，一看血液里来了「不明身份的人」就拉警报。这就是低度炎症：一把不冒烟的文火，不疼不痒，烧久了器官才跟着出问题。"}], "spares": [{"q": "老祖宗吃了几千年小麦都没事，所以小麦本身没问题——变的是小麦、吃法和我们自己的肠道，这三样同时变了。", "a": true, "why": "对，是三把锁同时换了：锁芯换了（小麦麸质变难了）、钥匙换了（发酵预处理没了）、门本身也旧了（我们的肠道屏障早就带伤工作）。少任何一变，都还不至于到今天这个地步。"}, {"q": "为了安全，所有人都应该一辈子戒掉面食，一口都别碰。", "a": false, "why": "课稿里说得明白：每个人肠道状态不一样，有人屏障厚实，偶尔吃完全没问题。断麸质 7 天是给你自己做一次测试，不是判无期。7 天后身体给你什么答案，你自己最清楚。"}, {"q": "肠道长期发炎，还会影响情绪——因为让你心情好的血清素，七成以上是在肠道里合成的。", "a": true, "why": "所以肠道一长期发炎，血清素合成就受阻，人会莫名低落、焦虑、睡不好、脾气大。你以为是自己心态不好、想太多，很可能只是肠道造不出足够的血清素。"}]}, "5": {"qs": [{"q": "亚洲人里，大约七到九成的人成年以后，身体里那把专门剪开乳糖的「剪刀」——乳糖酶，活性会明显下降。", "a": true, "why": "乳糖没被剪开，直接跑到大肠里，肠道菌群一看：来吃的了！一发酵——产气、腹胀、拉肚子、肚子咕噜叫。重点是很多人已经习惯了那种「微胀」，以为吃完饭肚子鼓起来是正常的。实际上肚子吃完是不应该胀的。"}, {"q": "牛奶里的 A1 β-酪蛋白消化后产生的 BCM-7，只停留在肠道里，不会进到血液。", "a": false, "why": "研究发现 BCM-7 会触发炎症，还会慢悠悠地穿过肠道屏障进到血液里；它也可能按住「连蛋白」这个开门按钮不松手，门一直开着就是肠漏。有的人表现在皮肤长痘湿疹，有的人在关节酸僵，有的人脑雾犯困——表现不同，火源可能都是那杯牛奶。"}, {"q": "这 7 天断乳制品，黄油也必须一起停掉。", "a": false, "why": "黄油基本是纯脂肪，不含让你敏感的蛋白和乳糖，可以留着。要停的是牛奶、酸奶、奶酪、奶片、拿铁、奶茶、含乳饮料、乳清蛋白粉；看配料表，见到乳清粉、酪蛋白、乳固体、炼乳就绕道走。"}], "spares": [{"q": "这 7 天无乳制品，是一次「排除测试」，不是给牛奶判无期。", "a": true, "why": "7 天后带着这几个数据去判断：肚子还胀吗、皮肤有没有变干净、早上的痰少了没、脑子有没有更清醒、大便有没有变规律。没变化就恭喜你，你对乳制品耐受，该喝喝。"}, {"q": "不喝奶就会缺钙，因为钙只能从奶里补。", "a": false, "why": "芝麻酱、深绿蔬菜（西兰花、羽衣甘蓝）、沙丁鱼、豆腐，含钙量都很高。功能营养学更关心的是你的肠道有没有能力吸收钙，而不是你吃了多少钙。"}, {"q": "很多人断奶之后痘痘明显减少，这跟牛奶里的 IGF-1 有关。", "a": true, "why": "IGF-1 促进细胞生长和修复，本身不是坏东西；但如果身体里已经有炎症的「火种」，它就像往上浇了一勺油。痘痘不是单纯的皮肤问题，它跟 IGF-1、胰岛素、全身炎症水平都有关。"}]}, "6": {"qs": [{"q": "酒是「假的快乐」，代糖是「假的甜」——本质上它们干的都是同一件事：给身体发一个信号，却不兑现。", "a": true, "why": "身体靠信号运转：吃到甜的就准备分泌胰岛素，感到快乐就调节多巴胺。酒精和代糖给了信号却不兑现，被耍久了，身体就不信任这些信号了，代谢开始紊乱。"}, {"q": "酒精主要伤肝，对肠道没什么影响。", "a": false, "why": "酒精第一个撞上的，就是你肠道黏膜那层薄薄的保护膜——它把紧密连接这层「水泥」溶掉，城墙一漏，毒素和未消化的蛋白就漏进血，这就是肠漏。它还会直接杀死有益菌，让有害菌趁机繁殖。肝脏超负荷只是后面的一环。"}, {"q": "所有代糖都一样有害，甜菊糖和罗汉果糖也要一并禁掉。", "a": false, "why": "代糖和代糖不一样。化学合成的（阿斯巴甜、三氯蔗糖、糖精、安赛蜜）身体压根不认识，重点警惕；糖醇类（木糖醇、赤藓糖醇、山梨糖醇、麦芽糖醇）偶尔吃可以，大量吃容易胀气腹泻；甜菊糖、罗汉果糖来自天然植物，身体认识它们，实在需要一点甜味时偶尔少量用问题不大——但也要控制量和频率。"}], "spares": [{"q": "2014 年有研究发现，三氯蔗糖和糖精会改变肠道菌群的组成，并导致葡萄糖耐量下降。", "a": true, "why": "你以为代糖跟肠道没关系，其实长期吃化学代糖在偷偷改变菌群结构——有益菌减少、有害菌增多，跟喝酒造成的菌群紊乱几乎是同一条路。这个研究针对的主要是化学合成那类，糖醇和天然甜味剂影响小得多。"}, {"q": "喝无糖饮料能帮你戒掉对甜的渴望。", "a": false, "why": "大脑期待的不只是甜味，还有随之而来的热量。代糖给了甜味没给热量，大脑觉得「被骗了，再来点」，结果越吃代糖越想吃甜的。这一点跟代糖种类无关，跟「甜味信号」本身有关。"}, {"q": "这 21 天里解渴，可以喝水、无糖茶、柠檬水，或者不加甜味剂的气泡水。", "a": true, "why": "推不掉的社交场合，要一杯气泡水加柠檬，看着像调酒，没人会追问。21 天不是一辈子，但这 21 天是给身体的「修复窗口」，尽量不要打断它。"}]}, "7": {"qs": [{"q": "这三周的分工是：第一周「断」，第二周「换」，第三周「觉」。", "a": true, "why": "第一周断掉伤害源；第二周把不好的换成好的，给肠道留白让它喘口气；第三周学会自己感知身体。第一周你已经减掉了种子油、糖和精制碳水、深加工食品、麸质、乳制品、酒精和代糖。"}, {"q": "第一周下来身体一定会马上有明显变化，没感觉就说明减法没用。", "a": false, "why": "知识卡里写了四种可能：胀气减轻、头脑变清晰、皮肤短暂爆痘（身体在排毒，是好的信号）、或者没什么感觉。慢性炎症的消退需要时间，一周只是开始。身体的修复快慢，关键看你之前亏欠了它多久。"}, {"q": "今天最重要的一件事，是花几分钟把自己这一周身体的变化写下来。", "a": true, "why": "这些感受不记录下来，过两天就忘了。把模糊的感觉变成清晰的文字，你会发现：原来减法真的有用。这不是向我们汇报，是给你自己一个交代。"}], "spares": [{"q": "从功能营养学看，第一周的核心效果是：系统性炎症负荷急剧下降。", "a": true, "why": "你停止了持续摄入促炎物质——Omega-6 过量、AGEs、食品添加剂、潜在过敏原，免疫系统从「持续低度激活」的状态里松了一口气。"}, {"q": "减法养生就是拼命往身体里塞营养素，补得越多越好。", "a": false, "why": "恰恰相反，是先减。身体不需要你帮它修，它只需要你别再折腾它——先把伤害源一样一样拿掉，身体自己会修复。"}, {"q": "麸质和乳制品戒断后，很多人最先感受到的变化是胀气减轻。", "a": true, "why": "消化道不再每天处理你处理不了的东西。除此之外，还可能是饭后不再脑雾、头脑变清晰。"}]}, "8": {"qs": [{"q": "「自噬」是身体饿肚子时启动的破坏机制，会把正常细胞也吃掉，所以尽量避免。", "a": false, "why": "自噬特别朴素——就是细胞在「吃掉自己内部的垃圾」。空腹时胰岛素降下来，细胞收到信号：终于没有新货进来了，趁空档打扫卫生。2016 年诺贝尔生理学或医学奖就颁给了研究自噬机制的大隅良典，评价是「细胞维持健康的关键机制」。"}, {"q": "你的肠道内壁展开来大概有一个网球场那么大，它是身体内部和外部世界之间唯一的一道屏障。", "a": true, "why": "吃进去的食物、细菌、毒素、添加剂，都得经过它才能进血液。它漏了，未消化的大分子和毒素从缝隙渗进血，免疫系统拉警报——这就是系统性炎症。炎症在全身跑：到关节是酸痛，到皮肤是湿疹痘痘，到大脑是脑雾，到血管是内皮损伤。"}, {"q": "建立进食窗口就是越饿越好，18 小时、20 小时都该硬扛。", "a": false, "why": "12 小时是最低门槛，14~16 小时是理想状态。有胃溃疡、胃酸反流的不要勉强，可以从 10 小时开始试；孕妇、哺乳期妈妈、低血糖体质的人要特别注意，不要硬扛，需要单独评估。原则是给自己能承受的最长空腹窗口。"}], "spares": [{"q": "空腹超过一段时间后，肠道会启动一种叫「移动运动复合波」的清扫波。", "a": true, "why": "名字拗口，你只要知道它像一把扫帚——空腹时肠道闲下来，就启动规律的清扫收缩波，把残余的食物碎渣和多余的细菌往下扫，等于给肠道做了一次内部保洁。"}, {"q": "修肠道的关键是赶紧吃补剂，把好东西补进去。", "a": false, "why": "修复逻辑就四个字：先清后补。关键不是「加什么好东西」，而是先给身体腾出时间和空间让它自己修。往一个漏水的桶里倒水，倒多少漏多少。"}, {"q": "你不吃的那 12 个小时，不是「饿着」，是身体在争分夺秒地修自己。", "a": true, "why": "靠你喂食的坏菌没饭吃了，好菌趁这段时间重新占领地盘，菌群在你空腹时重新洗牌。前两三天会不习惯，但那更多是习惯性饥饿，不是能量不足——你体内有大量糖原和脂肪储备。"}]}, "9": {"qs": [{"q": "Omega-3 在体内代谢后会产生「消散素」和「保护素」，它们的活儿是专门关闭炎症反应。", "a": true, "why": "听名字就懂——消散素负责「消散」炎症，保护素负责「保护」组织。Omega-6 是纵火犯，Omega-3 是消防员。"}, {"q": "Omega-6 和 Omega-3 的健康比例大约是 20:1，现代人普遍做到了 4:1。", "a": false, "why": "说反了。健康比例应该是 4:1 左右，但现代饮食结构下很多人是 20:1 甚至 50:1——等于 20 个纵火犯只有 1 个消防员。断掉种子油是减少纵火犯，加 Omega-3 是增加消防员，两手一起抓，炎症才控得住。"}, {"q": "补 Omega-3 首选金枪鱼，因为它个头大、肉多。", "a": false, "why": "选鱼的原则是小型鱼比大型鱼好，深海鱼比养殖鱼好。推荐三文鱼、沙丁鱼、鲭鱼、秋刀鱼，一周 2~3 次；金枪鱼是大型鱼，体内汞含量高，不建议经常吃。植物来源可以选亚麻籽（一定要研磨后再吃）、奇亚籽、核桃。"}], "spares": [{"q": "植物来源的 Omega-3（亚麻籽、奇亚籽、核桃）是 ALA 形式，身体要转化成 EPA 和 DHA 才能用，转化率大概只有 5%。", "a": true, "why": "所以光靠植物来源可能不太够，能吃深海鱼就先吃鱼。不吃鱼的话，藻油 DHA 是素食者最好的选择——因为鱼吃藻才有 Omega-3。"}, {"q": "只要每天吃够 Omega-3，种子油换不换都没关系。", "a": false, "why": "顺序很重要——先断坏的，再加好的。种子油是所有促炎饮食里最隐蔽、最普遍、危害最大的一个，你一边灭火一边还在放火，火灭不了。这就是减法养生的核心逻辑：不是什么都加，是先减掉伤害你的，再把真正需要的补进来。"}, {"q": "Omega-3 能滋养肠道里的阿克曼氏菌，这种菌被认为是肠道健康的「标志菌」。", "a": true, "why": "它多了，肠道屏障就牢固；它少了，肠漏的风险就高。所以 Omega-3 不光是抗炎，还在帮你修复肠道屏障、养好菌群。"}]}, "10": {"qs": [{"q": "蔬菜水果的颜色主要是为了好看、吸引动物来吃，跟营养没什么关系。", "a": false, "why": "这只说对了一小半。植物不能跑不能躲，颜色是它自己造的「防御武器」——紫外线照下来就合成一类化合物吸收紫外线，虫子来啃就合成另一类让虫子不爱吃。这些武器化合物统称多酚。植物用它保命，你吃了它，它就成了你体内的抗氧化剂。"}, {"q": "多酚不光是抗氧化剂，它还是肠道好菌的「益生元」——好菌吃了它，会代谢出短链脂肪酸。", "a": true, "why": "短链脂肪酸滋养肠道上皮细胞、修复肠黏膜屏障、调节免疫系统，甚至影响情绪。你吃五种颜色的蔬菜，等于给好菌上了五道菜——好菌吃饱了，肠道屏障就扎实，炎症就下来了。"}, {"q": "番茄生吃吸收最好，用油炒会破坏番茄红素。", "a": false, "why": "反了。番茄红素是脂溶性的，生吃吸收率不高；用一点油炒一下、煮一下，番茄红素的释放量翻几倍——所以番茄炒蛋其实是一道特别科学的菜。同理，姜黄素单独吃吸收率很差，配一点黑胡椒，里面的胡椒碱能把吸收率提高 20 倍。"}], "spares": [{"q": "紫色食物里的花青素能穿越血脑屏障，所以蓝莓被称为「大脑的食物」是有科学根据的。", "a": true, "why": "血脑屏障是大脑的一道安检防线，大部分东西进不去，但花青素能进去保护脑细胞、抗氧化。另外花青素还保护血管、改善微循环，手脚发凉的人可以多吃紫色食物。"}, {"q": "五种颜色里，绿色只负责补维生素，跟肝脏解毒没关系。", "a": false, "why": "绿色蔬菜里的萝卜硫素（西兰花等十字花科里特别集中）能同时激活肝脏解毒系统的两步，等于给身体的垃圾处理厂加了一班工人；叶绿素还能结合某些农药残留、重金属，帮身体排出去。"}, {"q": "今天的原则是「少量多样」——三餐加起来凑够五种颜色就行，不用每种吃一大盘。", "a": true, "why": "早餐加一把蓝莓（紫），午餐西兰花（绿）加胡萝卜（橙），晚餐番茄（红）加白蘑菇（白），五色就齐了。没时间整花样，就早上打一杯蔬菜昔：菠菜加蓝莓加半个牛油果加水，三分钟搞定三种颜色。"}]}, "11": {"qs": [{"q": "发酵食物里的活菌进到肠道后，大部分不一定长期定居，但「路过」的这几天会帮好菌打架、占位、训练免疫系统。", "a": true, "why": "它们产生有机酸和杀菌素抑制坏菌；肠道内壁空间有限，活菌把位置占了，坏菌就没地方落脚，这叫竞争性排斥；它们的细胞壁成分还会刺激肠道免疫细胞，让免疫系统保持警觉但不亢奋，等于做了一次实战演习。"}, {"q": "这几天如果有点疲劳、冒几颗痘、排便不太规律，说明减法做错了，得赶紧停。", "a": false, "why": "这叫「好转反应」，也叫扬灰期——就像大扫除把柜子搬开，灰扬起来了，你比不扫的时候更难受，但那是暂时的。身体终于有力气清理库存了。完全没反应的人，反而是身体太迟钝了。不过如果是持续加重的不舒服，不是那种「暂时扬灰」的感觉，那要去找专业人士。"}, {"q": "买酸奶只要看包装上写着「酸奶」两个字就行，风味发酵乳也一样。", "a": false, "why": "得看配料表——只有「生牛乳+乳酸菌」的才是真酸奶。配料表里有糖、有果酱、有增稠剂的，那叫风味发酵乳，不是发酵食物，是糖水。买泡菜也同理：要传统乳酸菌自然发酵的，不是用醋泡的速成泡菜。"}], "spares": [{"q": "你的肠道菌群现在正处在一场「换届选举」里——好菌在上，坏菌还没走。", "a": true, "why": "第一周断了糖和加工食品，坏菌没粮食开始饿肚子；第二周加了 Omega-3 和五色蔬菜，好菌吃上饭开始涨人口。旧班子不肯交钥匙总要闹几天，所以你会觉得肚子咕噜、排气多、排便节奏变了，这都是换届的正常现象。"}, {"q": "味噌汤要煮得滚开几分钟，才能把味道煮出来。", "a": false, "why": "滚开了会把活菌烫死。一勺味噌用温水冲泡最好——你要的就是那几亿个活的乳酸菌，烫死了它就只剩味道了。"}, {"q": "吃泡菜胃不舒服，可能是组胺不耐受，可以先换成温和的无糖酸奶试试。", "a": true, "why": "发酵食物里组胺含量较高，少数人对组胺敏感。酸奶的组胺含量比泡菜低很多，从少量开始。有条件也可以直接选择不含组胺的益生菌。"}]}, "12": {"qs": [{"q": "判断好肉和加工肉，最简单的标准是——看不看得出来它原来长什么样。", "a": true, "why": "鸡腿你看得见是鸡腿，鱼片看得见是鱼，牛肉看得见纹理，鸡蛋看得见是鸡蛋；火腿肠你看得出它用什么肉做的吗？看不出来，那就是加工肉。"}, {"q": "加工肉只是「肉差一点」，每天吃一根火腿肠问题不大。", "a": false, "why": "世界卫生组织下属的国际癌症研究机构，把加工肉列为 1 类致癌物，跟烟草同一个级别。不是说吃一口就致癌，而是每天吃 50 克——大概一根火腿肠的量——结直肠癌风险就显著上升。四条伤害路径：亚硝酸盐在体内变亚硝胺直接损伤 DNA；高温熏烤炸让 AGEs 达到新鲜肉的几十倍；谷饲动物脂肪酸偏促炎的 Omega-6；再加磷酸盐、卡拉胶、香精、色素一堆添加剂。"}, {"q": "你的肠道细胞每三到七天就更新一轮，造新细胞用的原材料，就是你吃进去的蛋白质。", "a": true, "why": "用火腿肠造出来的细胞，和用三文鱼造出来的细胞，质量不一样。好肉里的氨基酸还参与制造神经递质——身体用色氨酸制造血清素，而血清素 90% 是在肠道里制造的。所以好肉不只是长肌肉的，它是肠道修复的原材料、情绪稳定的底料。"}], "spares": [{"q": "明明不饿却想吃某个东西，可能是肠道里的坏菌在通过肠脑轴给你下指令。", "a": true, "why": "坏菌爱吃糖和加工食品，它们会释放信号，通过肠脑轴这条热线直接跟大脑说：给我来一份蛋糕。你以为是意志力薄弱，其实是坏菌在喊饿。你第一周断了它们的粮，第二周喂饱了好菌，偶尔还听见坏菌喊「吃糖吃糖」，那是它们在垂死挣扎。"}, {"q": "烹饪方式无所谓，只要肉选对了，炸着吃也没关系。", "a": false, "why": "你把好肉用油炸了，又产生一堆 AGEs，那跟加工肉也差不了太多。烹饪也做减法：蒸、煮、低温煎，不炸、不烤、不高温焦化。"}, {"q": "这 21 天里尽量别用腊肉、火腿肠打断修复窗口，但 21 天之后偶尔吃一次没问题。", "a": true, "why": "半年吃一次腊肉，和每天吃火腿肠，是完全不同的量级。这 21 天，给身体一次彻底的修复窗口。"}]}, "13": {"qs": [{"q": "睡眠就是身体歇着了，不干活了。", "a": false, "why": "恰恰相反，睡眠是身体一天里最忙的时候。就像一家 24 小时便利店，白天忙着收银上货，夜里关门才做得了大扫除。睡眠时身体在修肠道（黏膜修复和菌群调整大多发生在深度睡眠期）、修大脑、修情绪、修免疫。"}, {"q": "皮质醇正常应该「早高晚低」，天天熬夜会把这条曲线整个挪位。", "a": true, "why": "早上它该响一下让你清醒有劲，晚上降到最低让你困。你熬到两三点，身体只好硬着头皮把皮质醇再升上去撑住你。日复一日，高峰挪到深夜、低谷挪到白天——早上脑子糊、晚上该困不困、白天累晚上精神、肚子老胀气、肚子上的肉减不掉。"}, {"q": "今天要做的减法，是从食物上继续减，比如晚上不吃主食。", "a": false, "why": "今天的减法不是从食物上减，是从时间上减——给身体留出修复的时间。五个动作挑两个做就行：23 点前把手机放到客厅充电；睡前 1 小时不吃东西；卧室只留一盏小灯或干脆关灯；下午 3 点以后不喝咖啡和浓茶（咖啡因半衰期 6 小时，3 点一杯到晚上 9 点还有一半在血里）；起床时间固定。早起再晒 10 分钟太阳校准生物钟。"}], "spares": [{"q": "深度睡眠（入睡后前 3 小时）是生长激素分泌的高峰，成年人也要靠它修复肠道黏膜。", "a": true, "why": "生长激素不只让孩子长高，对成年人意味着修复肠道黏膜、愈合微小损伤、更新细胞。你前几天做的一切——换油、断糖、加发酵食物、吃好肉——施工队已经准备好了，但施工要夜间干，你不睡，施工队就没法上班。"}, {"q": "肠道菌群也有昼夜节律，熬夜会打乱它。", "a": true, "why": "不同的菌在白天和晚上活跃度不同，节律一乱，菌群的代谢功能直接受影响。所以「睡不好=白吃了」——你白天吃得再对，只要天天熬着夜，这些全白搭。"}, {"q": "周一到周五熬熬夜没关系，周末补一觉就能补回来。", "a": false, "why": "比起几点睡，起床时间固定更重要——周一到周日同一个时间起，身体节律也能稳住。补觉补不回被打乱的皮质醇曲线。"}]}, "14": {"qs": [{"q": "第二周「换」的第一件事，不是换某一种食物，是给身体换回一段自己修自己的时间。", "a": true, "why": "12~14 小时的进食窗口，是用来启动自噬的。细胞趁没有新货进来，把老旧的蛋白质、损伤的线粒体这些垃圾拆掉、回收、重新利用。12 小时是最低门槛，14~16 小时是理想状态。"}, {"q": "补 Omega-3 和吃五色蔬菜，一个只是为了抗炎，一个只是为了好看，跟菌群都没关系。", "a": false, "why": "两样都在喂好菌。Omega-3 除了代谢出消散素和保护素关闭炎症，还能滋养肠道里的阿克曼氏菌；蔬菜里的多酚是好菌的益生元，好菌吃了代谢出短链脂肪酸，滋养肠道上皮细胞、修复屏障。"}, {"q": "第二周最后两件事，是把蛋白质换成「看得见原形」的肉，以及给身体留出夜间的修复时间。", "a": true, "why": "加工肉被世卫组织下属机构列为 1 类致癌物，四条伤害路径：亚硝胺、AGEs、促炎脂肪、添加剂；好肉是肠道黏膜三到七天更新一轮的原材料。而你不睡觉，夜班施工队就进不来——前面十几天吃的，全白搭。"}], "spares": [{"q": "好肉的判断标准是看得见原形；烹饪也要做减法：蒸、煮、低温煎，不炸不烤。", "a": true, "why": "好肉用油炸了，又产生一堆 AGEs，那跟加工肉也差不了太多。"}, {"q": "空腹 12 个小时会低血糖，身体会缺能量。", "a": false, "why": "健康的人 12 小时不吃东西，身体并不会缺能量。你体内存着大量的糖原和脂肪，完全够用。前两三天的「饿」更多是习惯性的。"}, {"q": "番茄红素要用油炒才释放得多；姜黄素配一点黑胡椒，吸收率能提高 20 倍。", "a": true, "why": "番茄红素是脂溶性的，生吃吸收率不高；黑胡椒里的胡椒碱能把姜黄素的吸收率提上去。"}]}, "15": {"qs": [{"q": "第一周断掉的六样东西是：精炼种子油、糖和精制碳水、深加工食品、麸质、乳制品、酒精和代糖。", "a": true, "why": "一天断一样，连续六天。每一样，都是你主动选择拿掉的。"}, {"q": "麸质和 A1 酪蛋白，都会去按「连蛋白」这个开门按钮，把肠道的紧密连接打开。", "a": true, "why": "连蛋白正常情况下偶尔按一下、按完就松手，门开一下立刻关。有些东西会按住它不松手，门一直开着，不该进的东西全跑进去，这就是肠漏。"}, {"q": "第一周的核心效果，是系统性炎症负荷急剧下降。", "a": true, "why": "你停止了持续摄入促炎物质——Omega-6 过量、AGEs、食品添加剂、潜在过敏原，免疫系统从「持续低度激活」的状态里松了一口气。"}], "spares": [{"q": "包装上写着「0 反式脂肪酸」，就说明这个食品真的不含反式脂肪。", "a": false, "why": "国标规定每 100 克不超过 0.3 克就能标 0。配料表里只要有「氢化」两个字，说明还是用了。铁律一条：有「氢化」就不要吃。"}, {"q": "精制碳水断掉，等于断掉坏菌的粮草；好菌爱吃的是膳食纤维。", "a": true, "why": "白米白面吃下去血糖蹭蹭往上蹿，坏菌最爱这些。你喂得越多它们越嚣张，好菌越没立足之地。"}, {"q": "第一周身体没什么特别的感觉，说明减法没用。", "a": false, "why": "有的人第一周就浑身轻松，有的人要到第三周才缓过来。身体的修复快慢，关键看你之前亏欠了它多久。"}]}, "16": {"qs": [{"q": "让你情绪安稳的血清素，主要是在大脑里合成的。", "a": false, "why": "约九成血清素是在肠道合成的，不是脑袋。肠道还会自己产 GABA（管放松的递质）。它们本身进不了大脑，但会经由迷走神经这条「肠脑电话线」一路传到大脑，影响你的情绪和睡意。"}, {"q": "肠漏让内毒素 LPS 入血，可能引发神经炎症，让人脑子发蒙、情绪炸、睡不沉。", "a": true, "why": "LPS 只存在于革兰氏阴性菌（比如大肠杆菌）的细胞壁外，只有细菌死亡或裂解时才大量释放。正常情况下它不会入血，但屏障受损时就会异常升高进入循环系统。这是肠脑轴的第三条通道——炎症通道。"}, {"q": "今天的行动是两件：11 点前睡、睡前 1 小时不刷屏；再写一句「今天情绪最波动的时刻+当时在干嘛」。", "a": true, "why": "肠和脑之间有一条夜里的热线，你睡着了它才开始干修复的活。写那一句是「觉知」的练习——你会发现情绪波动、睡不好的时刻，往往都不是无缘无故发生的。"}], "spares": [{"q": "镁是 GABA 受体的「开关」，缺镁神经就兴奋、焦虑、睡不沉。", "a": true, "why": "肠脑轴的原材料里，镁负责给 GABA 受体当开关；B 族（B6、B9、B12）是血清素、GABA、多巴胺合成的辅酶；精氨酸生成一氧化氮，舒张血管改善脑供血；益生菌是产出更多 GABA 的好工厂。"}, {"q": "修肠脑轴要先猛补营养素，屏障修不修无所谓。", "a": false, "why": "顺序不能反——先修屏障，再给原材料。屏障没修好就猛补，等于一边修一边漏。"}, {"q": "有些好菌（比如乳酸杆菌、双歧杆菌）自己就能产生 GABA。", "a": true, "why": "你养出好的菌群，身体自己会产生放松的原材料，比从外部补充要稳当得多。菌群乱了，这条生产线也就停了。"}]}, "17": {"qs": [{"q": "坏菌会把红肉、蛋黄里的胆碱变成 TMA，再到肝脏被氧化成 TMAO——TMAO 会催着胆固醇往血管壁沉积。", "a": true, "why": "TMAO 很坏：催胆固醇沉积、促血栓、让血管钙化，还会增加糖尿病、肥胖、脑卒中的风险。好菌正好相反，它产生短链脂肪酸，进入血液帮内皮抗炎、保持弹性。"}, {"q": "「肠不净、血就脏、心就伤」只是一句比喻，不是真的会发生。", "a": false, "why": "这是真实的三步。肠壁松了（肠漏），LPS 直接钻进血液，血管内皮受损、失去弹性、开始僵硬，动脉硬化从这里开始；菌群还管胆汁酸代谢，菌群一乱，血脂跟着乱。"}, {"q": "今天的行动是快走或有氧 20 分钟，走完记一句：头晕、乏力比平时轻了没？", "a": true, "why": "运动让身体自己造一氧化氮通血管，这是精氨酸→NO 的生活化落地。走到身体微微发热、微微出汗就行，不用剧烈奔跑。"}], "spares": [{"q": "植物甾醇的分子结构和胆固醇「撞脸」，能在小肠里跟胆固醇抢位置，把多余的胆固醇悄悄赶走。", "a": true, "why": "它像替身演员一样抢占肠道吸收通道，从源头截断血液垃圾的生成。"}, {"q": "血管堵了只要把指标压下去就行——压指标就是在修路。", "a": false, "why": "压指标是「交警救急」：路面瘫痪了来临时疏通，保证基本通行；真正能把马路修通的，是清理路面、修护路基的养护工。指标该监测还是要监测，身体出问题一定要看医生，但只压指标等于没修根源。"}, {"q": "可溶性膳食纤维既能带走胆汁酸和胆固醇，又能养出好菌产生短链脂肪酸。", "a": true, "why": "它一边清理肠道堆积的代谢毒素和垃圾油脂，一边包裹废弃杂质加速排出，双向净化。"}]}, "18": {"qs": [{"q": "肠道黏膜和脸上的皮肤，本质是同一类屏障组织——一个叫「内在的皮」，一个叫「外在的皮」。", "a": true, "why": "它们之间还有一条双向通道叫肠皮轴，共用一套免疫信号，一荣俱荣、一损俱损。"}, {"q": "脸上反复长痘，只要坚持敷面膜、涂药膏就能断根。", "a": false, "why": "只在外面修补皮肤，没修肠道这道内墙，炎症会源源不断通过肠皮轴送到皮肤，问题就反反复复。就像苹果树老掉果子，光摘果子、喷药没用，得回头改良土壤。"}, {"q": "今天的行动是吃一份深色浆果或番茄、喝够水，睡前照镜子记录皮肤状态。", "a": true, "why": "紫的、红的、黑紫色果蔬富含花青素和植物多酚，帮身体扑灭慢性炎症的小火苗；土壤缺水会板结，肠道缺水，黏膜屏障也很难修复。睡前那次照镜子，是「觉知」皮肤的信号。"}], "spares": [{"q": "小分子胶原蛋白肽能提升肠道黏膜里的紧密连接蛋白，把肠壁细胞之间的缝隙收紧。", "a": true, "why": "它同时抑制 TNF-α 这类炎症因子，一边修「内在的皮」，一边滋养脸上的皮肤，内外一起加固屏障。"}, {"q": "叶黄素不只护眼，它还能通过肠皮轴抗氧化、抵御光损伤，帮皮肤抗光老。", "a": true, "why": "属于肠、皮双向受益的营养素。"}, {"q": "玻尿酸和叶黄素只能外用，口服没用。", "a": false, "why": "我们身体本身就能合成玻尿酸，肠道内壁和皮肤表层都需要它锁水、保持润泽。口服玻尿酸经过肠道代谢后，既能维护肠黏膜湿润完整，也能给皮肤补足保湿的原料。"}]}, "19": {"qs": [{"q": "肠道吸收的物质，约 75% 会通过门静脉第一时间送到肝脏——肝脏是身体自带的解毒工厂。", "a": true, "why": "吃进去的东西第一站不是心脏，是肝脏。所以老祖宗说：肠不净，肝必伤；肝若伤，血就脏。"}, {"q": "肠肝轴是双向的：肝不好，胆汁分泌不足，肠道消化能力也会跟着变差，反过来加重肠漏。", "a": true, "why": "肝脏分泌胆汁流回肠道，帮助消化、稳住肠道菌群。肠和肝一荣俱荣、一损俱损，处理不好就是恶性循环。"}, {"q": "今天的行动是绿叶菜吃到两拳、少油不喝酒，睡前照镜子看气色和疲劳感。", "a": true, "why": "深绿色蔬菜里的叶绿素可以结合代谢废物，帮肝脏分担解毒压力；油脂和酒精是肝脏两大负担源。睡前照镜子不看痘痘，就看脸是透亮的还是暗沉的。"}], "spares": [{"q": "体检指标异常，只要把指标强行压下去就解决问题了。", "a": false, "why": "就像给发霉的墙刷漆，表面看着好了，墙后那根渗水的水管没修，霉菌还会再长。指标该监测还是要监测，身体出问题一定要看医生，但只压指标等于没修根源。"}, {"q": "膳食纤维是好菌的口粮，好菌吃饱产生短链脂肪酸加固肠壁，从源头减少流去肝脏的毒素。", "a": true, "why": "菌群稳了，产生的内毒素 LPS 就变少，流去肝脏的毒素自然大幅减少——相当于从源头切断污染来源。"}, {"q": "养肠肝轴分两步：先修肠道屏障堵住毒素来源，再给叶绿素、膳食纤维这类原材料给肝脏减负。", "a": true, "why": "先修屏障堵住潮气源，再加速。顺序反了就是一边修一边漏。"}]}, "20": {"qs": [{"q": "第三周修的四条轴是：肠脑轴、肠心轴、肠皮肤轴、肠肝轴。", "a": true, "why": "情绪睡眠、血管供血、皮肤和眼、气色解毒——这四件事的根，都可能不在那个器官上，而在肠子上。"}, {"q": "这四条轴的修法是同一个顺序：先修肠道屏障，再给对的原材料。", "a": true, "why": "先养屏障，再加速。屏障没修好就猛补，等于一边修一边漏。"}, {"q": "情绪问题只能靠调整心态，跟肠道没关系。", "a": false, "why": "约九成血清素在肠道合成，肠道还自产 GABA，经迷走神经影响大脑；肠漏让 LPS 入血引发神经炎症，会脑雾、焦虑、睡不沉。"}], "spares": [{"q": "精氨酸在肠脑轴和肠心轴都用得上——它生成一氧化氮，舒张血管、改善供血。", "a": true, "why": "脑子供氧足了人就清爽，血管一通微循环活络、血压也稳。"}, {"q": "四条轴各修各的，互不相干。", "a": false, "why": "它们共用同一个源头：肠道屏障。肠漏的 LPS 顺血跑——到脑是神经炎症，到血管是内皮损伤，到皮肤是长痘过敏，顺门脉到肝就是肝内炎症。"}, {"q": "第三周每一天的行动后面都带一句「记录」——记情绪、记头晕乏力、记皮肤、记气色，这是在练「觉」。", "a": true, "why": "21 天不是让你记住多少知识，是让你学会自己感知身体。"}]}, "21": {"qs": [{"q": "精炼种子油的问题不只是 Omega-6 高，精炼过程还会产生氧化脂质、反式脂肪、醛类化合物。", "a": true, "why": "你吃进去的不只是油，还有一堆身体认不出的分子碎片。这就是为什么 21 天的第一天，是换油而不是断糖。"}, {"q": "糖的伤害远不止长胖：高血糖会加速 AGEs 生成，让胶原蛋白变硬变脆。", "a": true, "why": "皮肤松弛、关节老化、血管失去弹性，都跟它有关。"}, {"q": "减法养生不是 21 天就结束了——21 天是帮你养成一个习惯：做任何决定之前，先问一句「这个东西，我的身体真的需要吗」。", "a": true, "why": "21 天里真正留下的，不是那六样被断掉的东西，是这一个提问的习惯。"}], "spares": [{"q": "这 21 天断掉的东西，以后一辈子都不能碰了。", "a": false, "why": "断是测试，不是判决。半年吃一次腊肉和天天吃火腿肠，是完全不同的量级；7 天后你对乳制品耐受，该喝喝。重点是：你知道自己的身体，跟哪些东西「合不来」。"}, {"q": "修肠道的完整顺序是：先清（断伤害源），再补（给原材料），中间还要留白（给时间）。", "a": true, "why": "第一周清，第二周换，第三周修。少了中间那段留白，补进去的东西也用不上。"}, {"q": "21 天里最贵的一样东西不是补剂，是每天给身体的 12 小时修复窗口。", "a": true, "why": "修复不需要你花钱，需要你不往嘴里塞东西就行了。"}]}};
+var CALC  = {"groups": [{"cls": "g3", "pt": 3, "label": "3 点 · 尽量别碰", "note": "碰了就记，没有「适量」", "items": [{"name": "加工肉肠", "sub": "香肠/腊肠/火腿/午餐肉"}, {"name": "反式脂肪", "sub": "起酥点心/植脂末/代可可脂"}, {"name": "含糖饮料", "sub": "可乐/果汁饮料/加糖咖啡"}, {"name": "油炸食品", "sub": "油条/炸鸡/薯条"}]}, {"cls": "g2", "pt": 2, "label": "2 点 · 吃了就算", "note": "按份记，记了就翻篇", "items": [{"name": "酒精", "sub": "1 杯啤酒或红酒"}, {"name": "甜品糕点", "sub": "蛋糕/饼干，一块/一杯"}, {"name": "超加工零食", "sub": "薯片/辣条，每拆一包"}, {"name": "红肉（猪牛羊）", "sub": "超出一份（掌心约100g）"}]}, {"cls": "g1", "pt": 1, "label": "1 点 · 日常计量", "note": "不必精确，估个大概", "items": [{"name": "精制碳水", "sub": "1 碗白米饭/1 个馒头"}, {"name": "添加糖", "sub": "加糖咖啡/冲饮，每平勺"}, {"name": "高盐腌制", "sub": "咸鱼/咸菜/酱菜，每餐"}, {"name": "重油厚味", "sub": "水煮鱼/干锅/炒饭类，每餐"}]}], "zero": [{"name": "深绿叶菜", "items": ["菠菜", "羽衣甘蓝", "油菜", "芥蓝", "西兰花", "茼蒿"]}, {"name": "深色蔬菜", "items": ["胡萝卜", "南瓜", "紫甘蓝", "彩椒", "甜菜根", "秋葵"]}, {"name": "低糖莓果", "items": ["蓝莓", "草莓", "树莓", "猕猴桃", "牛油果"]}, {"name": "好油脂", "items": ["三文鱼", "鲭鱼", "沙丁鱼", "核桃", "亚麻籽", "橄榄油"]}, {"name": "发酵食物", "items": ["无糖酸奶", "纳豆", "味噌", "泡菜", "康普茶"]}, {"name": "全谷豆类", "items": ["鹰嘴豆", "糙米", "藜麦", "扁豆", "山药"]}, {"name": "厨房香辛", "items": ["姜黄", "生姜", "大蒜", "肉桂", "绿茶", "充足饮水"]}], "budget": 5};
+function hasQ(d){ return !!(QDATA[d] && QDATA[d].qs && QDATA[d].qs.length); }
 
 var MILESTONES = [
   {n:3,  name:"三日不断", d:"连开 3 道门 · 解锁「起步者」"},
@@ -451,7 +372,7 @@ var BADGES = [
 var RANKCOLOR = {1:"#14705A", 2:"#C9A24B", 3:"#D2703C"};
 
 /* ===================== 状态 ===================== */
-var KEY = "gongxi_v2";
+var KEY = "gongxi_v3";
 function load(){
   try{ var s = JSON.parse(localStorage.getItem(KEY)); if(s && s.log) return s; }catch(e){}
   return {start:null, log:{}};
@@ -481,32 +402,10 @@ function curStreak(){
   for(var i=ds.length-2;i>=0;i--){ if(ds[i]===last-1){ st++; last=ds[i]; } else break; }
   return st;
 }
-
-/* ===================== 共栖生命 SVG ===================== */
-function growthSVG(opened, newest){
-  var N=21, potTop=200, stemBot=200, stemTopMin=50;
-  var stemTop = stemBot - (opened/N)*(stemBot-stemTopMin);
-  var s = '<svg viewBox="0 0 200 230" width="100%" height="100%" style="display:block">';
-  s += '<path d="M74 '+potTop+' L126 '+potTop+' L118 224 L82 224 Z" fill="#D2703C"/>';
-  s += '<rect x="70" y="192" width="60" height="10" rx="4" fill="#C9A24B"/>';
-  s += '<rect x="97" y="'+stemTop+'" width="6" height="'+(stemBot-stemTop)+'" rx="3" fill="#14705A"/>';
-  for(var i=1;i<=N;i++){
-    var ly = stemBot - (i/N)*(stemBot-stemTopMin) - 6;
-    var side = (i%2===0)?1:-1;
-    var lx = 100 + side*20;
-    var filled = i<=opened;
-    var cls = (i===newest)?' style="animation:popLeaf .55s ease-out both"':'';
-    var col = filled ? "#14705A" : "none";
-    var st = filled ? "none" : "#d8cdb6";
-    s += '<ellipse'+cls+' cx="'+lx+'" cy="'+ly+'" rx="12" ry="6.5" fill="'+col+'" stroke="'+st+'" stroke-width="1.2" transform="rotate('+(side*30)+' '+lx+' '+ly+')"/>';
-  }
-  if(opened>0){
-    var budCls = (newest===N)?' style="animation:popLeaf .55s ease-out both"':'';
-    s += '<ellipse'+budCls+' cx="100" cy="'+(stemTop-6)+'" rx="11" ry="14" fill="#1d9e75"/>';
-  }
-  s += '</svg>';
-  return s;
-}
+function calcTodayKey(){ return "calc_"+todayStr(); }
+function calcLoad(){ try{ return JSON.parse(localStorage.getItem(calcTodayKey()))||{}; }catch(e){ return {}; } }
+function calcSave(o){ try{ localStorage.setItem(calcTodayKey(), JSON.stringify(o)); }catch(e){} }
+function calcTotal(o){ var s=0; CALC.groups.forEach(function(g){ g.items.forEach(function(it){ s += (o[it.name]||0)*g.pt; }); }); return s; }
 
 /* ===================== 工具 ===================== */
 function $(id){ return document.getElementById(id); }
@@ -554,8 +453,8 @@ function switchView(v){
   $("view"+v.charAt(0).toUpperCase()+v.slice(1)).classList.add("active");
   document.querySelectorAll(".tab").forEach(function(el){ el.classList.remove("on"); });
   document.querySelector('.tab[data-v="'+v+'"]').classList.add("on");
-  if(v==="path") renderPath();
-  if(v==="me") renderMe();
+  if(v==="road") renderRoad();
+  if(v==="calc") renderCalc();
 }
 document.querySelectorAll(".tab").forEach(function(el){
   el.onclick = function(){ switchView(el.dataset.v); };
@@ -573,14 +472,12 @@ function render(){
   $("stDay").textContent = cur;
   $("stOpen").textContent = oc;
   $("stStreak").textContent = st;
-  $("seedDays").textContent = oc;
-  $("seedMini").innerHTML = growthSVG(oc, null);
-  $("heroDoorName").textContent = TASKS[cur-1].name;
+  $("heroDoorName").textContent = TASKS[cur-1].t;
   renderToday(cur);
 }
 function renderToday(cur){
   var tk = TASKS[cur-1], done = !!S.log[cur];
-  var phTxt = tk.ph==="断"?"停止伤害":tk.ph==="换"?"换成真需":tk.ph==="修"?"给足原料":"贯穿全程";
+  var phTxt = tk.ph==="断"?"停止伤害":tk.ph==="换"?"换成真需":tk.ph==="修"?"给足原料":tk.ph==="复"?"回看校准":"走完全程";
   var html = '<span class="ph">'+tk.ph+' · '+phTxt+'</span>'+
     '<div class="tt">第 '+cur+' 天 · '+tk.t+'</div>'+
     '<div class="tw">'+tk.w+'</div>'+
@@ -588,81 +485,145 @@ function renderToday(cur){
   if(done) html += '<button class="btn ghost" id="todayBtn">今天已开门 · 再看一眼</button>';
   else html += '<button class="btn" id="todayBtn">'+(hasQ(cur)?"答题开门（3 道题）":"推开门")+'</button>';
   $("todayCard").innerHTML = html;
-  $("todayBtn").onclick = function(){ if(done){ viewDoor(cur); } else { openDoor(cur); } };
+  $("todayBtn").onclick = function(){ if(done){ reviewDoor(cur); } else { openDoor(cur); } };
 }
 
-/* ===================== 门径 ===================== */
-function doorCard(d){
-  var tk = TASKS[d-1], done = !!S.log[d], cur = curDay();
-  var isToday = d===cur, miss = (!done && d<cur), future = (!done && d>cur);
-  var col = done ? RANKCOLOR[tk.rank] : "#e7dcc6";
-  var cls = "dcard" + (done?" done":"") + (isToday?" today":"") + (miss?" miss":"") + (future?" future":"");
-  var inner = done
-    ? '<div class="dnum">'+d+'</div><div class="dname">'+tk.name+'</div>'
-    : (isToday?'<div class="dnum">'+d+'</div><div class="dtip">今天</div>'
-       : miss?'<div class="dnum">'+d+'</div><div class="dtip">补开</div>'
-       : '<div class="dnum">'+d+'</div><div class="dtip">未到</div>');
-  var svg = '<svg class="darch" viewBox="0 0 60 76"><path d="M8 72 L8 34 A22 22 0 0 1 52 34 L52 72 Z" fill="'+col+'" stroke="#14705A" stroke-width="2"/>'+
-            '<path d="M30 72 L30 34" stroke="'+(done?"#FBF6EC":"#bcae93")+'" stroke-width="1.5"/></svg>';
-  return '<div class="'+cls+'" data-d="'+d+'">'+svg+inner+'</div>';
+/* ===================== 共栖之路 · 群岛 ===================== */
+function islandPos(i){ // i:1..21
+  var t=(i-1)/20;
+  var x = 170 + 92*Math.sin(i*0.62);
+  var y = 560 - t*500;
+  var r = 26 - t*15;
+  return {x:x, y:y, r:r};
 }
-function renderPath(){
-  var grid = $("doors"); grid.innerHTML = "";
-  for(var d=1; d<=21; d++){
-    grid.insertAdjacentHTML('beforeend', doorCard(d));
-    if(Math.ceil(d/3)%2===0) {} // keep order; snake via CSS direction on rows handled below
+function renderRoad(){
+  var cur = curDay(), oc = openedCount();
+  $("roadLit").textContent = oc;
+  var W=340, H=600;
+  var pts=[]; for(var k=0;k<21;k++){ var p=islandPos(k+1); pts.push(p); }
+  var svg='<svg viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="xMidYMid meet" style="display:block">';
+  svg+='<rect x="0" y="0" width="'+W+'" height="150" fill="#FBF6EC" opacity="0.45"/>';
+  svg+='<polyline points="'+pts.map(function(p){return p.x.toFixed(1)+','+p.y.toFixed(1);}).join(' ')+
+        '" fill="none" stroke="#B7CDC2" stroke-width="2" stroke-dasharray="1 8" stroke-linecap="round"/>';
+  for(var k=0;k<21;k++){
+    var d=k+1, p=pts[k], tk=TASKS[d-1], done=!!S.log[d], isToday=(d===cur), future=(!done&&d>cur&&!isToday);
+    var base = done? "#E3D3AE" : "#D8D5CC";
+    var topc = done? "#4F6B4A" : "#C4C1B8";
+    var op = future? 0.5 : 1;
+    svg+='<g data-i="'+d+'" style="cursor:pointer" opacity="'+op+'">';
+    if(isToday) svg+='<circle cx="'+p.x.toFixed(1)+'" cy="'+p.y.toFixed(1)+'" r="'+(p.r+9).toFixed(1)+'" fill="none" stroke="#D2703C" stroke-width="1.6" stroke-dasharray="3 5"/>';
+    svg+='<ellipse cx="'+p.x.toFixed(1)+'" cy="'+p.y.toFixed(1)+'" rx="'+p.r.toFixed(1)+'" ry="'+(p.r*0.38).toFixed(1)+'" fill="'+base+'"/>';
+    svg+='<ellipse cx="'+p.x.toFixed(1)+'" cy="'+(p.y-p.r*0.18).toFixed(1)+'" rx="'+(p.r*0.72).toFixed(1)+'" ry="'+(p.r*0.3).toFixed(1)+'" fill="'+topc+'"/>';
+    if(done){
+      var fx=p.x, fy=p.y-p.r*0.55, fr=p.r*0.42;
+      svg+='<path d="M'+fx.toFixed(1)+' '+fy.toFixed(1)+' c'+(fr*0.5).toFixed(1)+','+(fr*0.8).toFixed(1)+' '+(fr*0.9).toFixed(1)+','+(fr*1.4).toFixed(1)+' '+(fr*0.9).toFixed(1)+','+(fr*2)+' a'+(fr).toFixed(1)+','+(fr).toFixed(1)+' 0 1 1 '+(-fr*1.8).toFixed(1)+',0 c0,'+(-fr*0.7).toFixed(1)+' '+(-fr*0.4).toFixed(1)+','+(-fr*1.2).toFixed(1)+' '+(fr*0.9).toFixed(1)+','+(-fr*2)+'" fill="#D2703C"/>';
+    }
+    if(d===7||d===14||d===21){
+      svg+='<path d="M'+p.x.toFixed(1)+' '+(p.y-p.r-4).toFixed(1)+' l0 -16 l13 5 l-13 5 z" fill="#C9A24B"/>';
+    }
+    svg+='<text x="'+p.x.toFixed(1)+'" y="'+(p.y+p.r*0.45+11).toFixed(1)+'" font-size="10" fill="#5F5E5A" text-anchor="middle">'+d+' '+(done?tk.name:"未到")+'</text>';
+    svg+='</g>';
   }
-  // 蛇形：偶数"行"整体反向，形成蜿蜒
-  var cells = grid.children;
-  // 用 order 实现蛇形
-  for(var i=0;i<cells.length;i++){
-    var row = Math.floor(i/3);
-    if(row%2===1){ cells[i].style.order = (row*3 + (2-(i%3))); }
-    else { cells[i].style.order = i; }
-  }
-  grid.querySelectorAll('.dcard').forEach(function(el){
-    el.onclick = function(){
-      var d=+el.dataset.d, done=!!S.log[d], cur=curDay(), miss=(!done&&d<cur);
-      if(done) viewDoor(d);
-      else if(d===cur) openDoor(d);
-      else if(miss) supOpen(d);
+  svg+='<text x="170" y="34" font-size="12" fill="#8C7A5F" text-anchor="middle">前方雾中 · 还有未到的日子</text>';
+  svg+='</svg>';
+  $("roadMap").innerHTML = svg;
+  $("roadMap").querySelectorAll("g[data-i]").forEach(function(g){
+    g.onclick = function(){
+      var i=+g.getAttribute("data-i"), done=!!S.log[i], cur=curDay(), miss=(!done&&i<cur);
+      if(done) reviewDoor(i);
+      else if(i===cur) openDoor(i);
+      else if(miss) supOpen(i);
       else toast("还没到这一天，先开今天的门");
     };
   });
 }
+function reviewDoor(d){
+  var tk = TASKS[d-1];
+  $("revT").textContent = "第 "+d+" 天 · "+tk.t;
+  var disc=$("revDisc"); disc.style.background=RANKCOLOR[tk.rank]; disc.textContent=tk.name;
+  $("revName").textContent = "藏品 · "+tk.name;
+  $("revWord").textContent = tk.word;
+  $("revWhy").innerHTML = "<b>怎么做</b> · "+tk.w+"<br><br><b>为什么</b> · "+tk.why;
+  show("review");
+}
+$("revClose").onclick=function(){ hide("review"); };
 
-/* ===================== 我的共栖 ===================== */
-function renderMe(){
-  var oc = openedCount(), st = curStreak();
-  $("meGrow").innerHTML = growthSVG(oc, null);
-  var ms = $("meStreak");
-  if(st>=14) ms.innerHTML = '连闯 <span>'+st+'</span> 天 · 快到尾声了';
-  else if(st>=7) ms.innerHTML = '连闯 <span>'+st+'</span> 天 · 火已经弱了';
-  else if(st>=1) ms.innerHTML = '连闯 <span>'+st+'</span> 天 · 火苗小了一圈';
-  else ms.innerHTML = '连闯 <span>0</span> 天 · 今天先开一道门';
-  var grid = $("albumGrid"); grid.innerHTML = "";
+/* ===================== 藏品册 ===================== */
+function renderAlbum(){
+  var grid=$("albumGrid2"); grid.innerHTML="";
   TASKS.forEach(function(tk){
-    var el = document.createElement("div");
+    var el=document.createElement("div");
     if(S.log[tk.d]){ el.className="acell"; el.style.background=RANKCOLOR[tk.rank]; el.innerHTML="<div>"+tk.name+"</div>"; }
     else { el.className="acell lock"; el.innerHTML="<div>？</div>"; }
     grid.appendChild(el);
   });
-  var ml = $("mileList"); ml.innerHTML = "";
+  var ml=$("mileList2"); ml.innerHTML=""; var oc=openedCount();
   MILESTONES.forEach(function(m){
-    var got = oc>=m.n;
-    ml.insertAdjacentHTML('beforeend','<div class="mi"><div class="mn">'+(got?"✓ ":"○ ")+m.name+'</div><div class="md">'+m.d+'</div></div>');
+    ml.insertAdjacentHTML('beforeend','<div class="mi"><div class="mn">'+(oc>=m.n?"✓ ":"○ ")+m.name+'</div><div class="md">'+m.d+'</div></div>');
   });
-  var bd = $("badges"); bd.innerHTML = "";
+  var bd=$("badges2"); bd.innerHTML="";
   BADGES.forEach(function(b){
-    var el = document.createElement("span");
-    el.className = "badge"+(oc>=b.n?" on":"");
-    el.textContent = b.label; bd.appendChild(el);
+    var el=document.createElement("span"); el.className="badge"+(oc>=b.n?" on":""); el.textContent=b.label; bd.appendChild(el);
+  });
+}
+$("albumBtn").onclick=function(){ renderAlbum(); show("albumModal"); };
+$("albumClose").onclick=function(){ hide("albumModal"); };
+$("resetBtn2").onclick=function(){
+  if(confirm("确定清空全部进度？这一下不可恢复。")){ localStorage.removeItem(KEY); try{localStorage.removeItem(calcTodayKey());}catch(e){} S=load(); render(); hide("albumModal"); toast("已清空，重新来过"); }
+};
+
+/* ===================== 炎点计算器 ===================== */
+var calcState = calcLoad();
+function renderCalc(){
+  var total=calcTotal(calcState);
+  var lamp = total<=CALC.budget? "#14705A" : "#CF3E2B";
+  var tip = total<=CALC.budget? "预算内 · 记了就翻篇，明天重新算" : "超预算了 · 明天重新算，不纠结";
+  var html='';
+  html+='<div class="calc-head"><div class="calc-lamp" style="background:'+lamp+'">'+total+'<span>/ '+CALC.budget+'</span></div>'+
+         '<div class="calc-status">今日炎点 · 填一填就算<div class="cs2">'+tip+'</div></div></div>';
+  CALC.groups.forEach(function(g){
+    var cls = g.cls==="g2"?" g2":g.cls==="g1"?" g1":"";
+    html+='<div class="cg"><div class="cg-h'+cls+'">'+g.pt+' 点 · '+g.label+'<span class="note">'+g.note+'</span></div>';
+    g.items.forEach(function(it){
+      var c=calcState[it.name]||0;
+      html+='<div class="ci"><div class="nm">'+it.name+'<span class="sub">'+it.sub+'</span></div>'+
+        '<span class="ct">'+c+'</span>'+
+        '<button class="step" data-act="dec" data-n="'+it.name+'">−</button>'+
+        '<button class="step" data-act="inc" data-n="'+it.name+'">＋</button></div>';
+    });
+    html+='</div>';
+  });
+  html+='<div class="zero-wrap"><div class="zw-h">零炎清单 · 吃过打勾，不算分</div>';
+  CALC.zero.forEach(function(z){
+    html+='<div class="zw-cat">'+z.name+'</div>';
+    z.items.forEach(function(it){
+      var on = calcState["z_"+it]? " on":"";
+      html+='<span class="chip'+on+'" data-z="'+it+'">'+it+'</span>';
+    });
+  });
+  html+='</div>';
+  html+='<div class="foot">生活打卡小工具 · 不是科学量表 · 不构成医学建议<br>数据只存在你这台手机，不会上传。</div>';
+  var box=$("calcBox"); box.innerHTML=html;
+  box.querySelectorAll(".step").forEach(function(b){
+    b.onclick=function(){
+      var n=b.getAttribute("data-n"), act=b.getAttribute("data-act");
+      calcState[n]=(calcState[n]||0)+(act==="inc"?1:-1);
+      if(calcState[n]<0) calcState[n]=0;
+      calcSave(calcState); renderCalc();
+    };
+  });
+  box.querySelectorAll(".chip").forEach(function(c){
+    c.onclick=function(){
+      var z=c.getAttribute("data-z");
+      if(calcState["z_"+z]) delete calcState["z_"+z]; else calcState["z_"+z]=1;
+      calcSave(calcState); renderCalc();
+    };
   });
 }
 
 /* ===================== 开门 / 答题 ===================== */
 function openDoor(d){
-  if(S.log[d]){ viewDoor(d); return; }
+  if(S.log[d]){ reviewDoor(d); return; }
   if(!S.start) S.start = todayStr();
   if(hasQ(d)) startQuiz(d); else celebrate(d);
 }
@@ -675,32 +636,43 @@ $("supYes").onclick = function(){ hide("sup"); if(pendingSup!=null) openDoor(pen
 $("supNo").onclick = function(){ hide("sup"); };
 
 var qz = null;
-function startQuiz(d){ qz = {d:d, qi:0}; show("quiz"); renderQ(); }
+function startQuiz(d){ qz = {d:d, qi:0, mode:"main"}; show("quiz"); renderQ(); }
 function renderQ(){
-  var qs = QDATA[qz.d], item = qs[qz.qi];
-  $("qT").textContent = "第 "+(qz.qi+1)+" / "+qs.length+" 题";
+  var set = qz.mode==="main"? QDATA[qz.d].qs : QDATA[qz.d].spares;
+  var item = set[qz.qi];
+  $("qT").textContent = "第 "+(qz.qi+1)+" / "+set.length+" 题"+(qz.mode==="spare"?" · 加时题":"");
   $("qStmt").textContent = item.q;
   var fb = $("qFb"); fb.className="qfb"; fb.style.display="none"; fb.innerHTML="";
   $("btnTrue").disabled=false; $("btnFalse").disabled=false;
 }
 function answer(val){
-  var qs = QDATA[qz.d], item = qs[qz.qi], ok = (val===item.a), fb = $("qFb");
+  var set = qz.mode==="main"? QDATA[qz.d].qs : QDATA[qz.d].spares;
+  var item = set[qz.qi], ok = (val===item.a), fb = $("qFb");
   fb.style.display="block";
   if(ok){
     sfxCorrect();
-    var last = (qz.qi===qs.length-1);
+    var last = (qz.qi===set.length-1);
     fb.className="qfb ok";
     fb.innerHTML = "答对啦 ✓<span class='why'>"+item.why+"</span>"+
       "<button class='btn' id='qNext' style='margin-top:12px;'>"+(last?"三道全对 · 开门":"下一题")+"</button>";
     $("btnTrue").disabled=true; $("btnFalse").disabled=true;
-    $("qNext").onclick = function(){ if(last){ hide("quiz"); celebrate(qz.d); } else { qz.qi++; renderQ(); } };
+    $("qNext").onclick = function(){
+      if(qz.mode==="spare"){ qz.mode="main"; }
+      if(last){ hide("quiz"); celebrate(qz.d); }
+      else { qz.qi++; renderQ(); }
+    };
   } else {
     sfxWrong();
     fb.className="qfb no";
-    fb.innerHTML = "再想想 ✗<span class='why'>"+item.why+"</span>"+
-      "<button class='btn' id='qAgain' style='margin-top:12px;'>这道题得重头再来</button>";
-    $("btnTrue").disabled=true; $("btnFalse").disabled=true;
-    $("qAgain").onclick = function(){ qz.qi=0; renderQ(); };
+    if(qz.mode==="main"){
+      fb.innerHTML = "再想想 ✗<span class='why'>"+item.why+"</span>"+
+        "<button class='btn' id='qSpare' style='margin-top:12px;'>换一道加时题再试</button>";
+      $("qSpare").onclick = function(){ qz.mode="spare"; qz.qi=0; renderQ(); };
+    } else {
+      fb.innerHTML = "这一题也错了，不急<span class='why'>"+item.why+"</span>"+
+        "<button class='btn' id='qAgain' style='margin-top:12px;'>从第一题重头再来</button>";
+      $("qAgain").onclick = function(){ qz.mode="main"; qz.qi=0; renderQ(); };
+    }
   }
 }
 $("btnTrue").onclick = function(){ answer(true); };
@@ -708,7 +680,7 @@ $("btnFalse").onclick = function(){ answer(false); };
 
 /* ===================== 开门爆发 ===================== */
 function celebrate(d){
-  if(S.log[d]){ viewDoor(d); return; }
+  if(S.log[d]){ reviewDoor(d); return; }
   S.log[d] = todayStr(); save();
   var tk = TASKS[d-1], st = curStreak(), oc = openedCount();
   render();
@@ -725,9 +697,9 @@ function celebrate(d){
   if(oc===21) secret = "彩蛋 · 共栖花园落成：一团火，被你养成了 21 株小苗。";
   else if(st===7 || st===14) secret = "彩蛋 · 连闯 "+st+" 天，小火苗又矮了一截。";
   if(secret) sub.textContent += "　" + secret;
+  if(oc>0 && calcTotal(calcLoad())===0) sub.textContent += "　今天炎点 0 · 一滴火都没浇";
 
   show("celebrate");
-  // 触发动画
   requestAnimationFrame(function(){
     door.classList.add("open");
     burst.classList.add("go");
@@ -741,24 +713,6 @@ function celebrate(d){
   sfxOpen();
 }
 $("celClose").onclick = function(){ hide("celebrate"); switchView("today"); };
-
-/* ===================== 查看已开门 ===================== */
-function viewDoor(d){
-  var tk = TASKS[d-1];
-  $("viewT").textContent = "第 "+d+" 道门 · 已开";
-  var disc = $("viewDisc"); disc.style.background = RANKCOLOR[tk.rank]; disc.textContent = tk.name;
-  $("viewName").textContent = tk.t;
-  $("viewWord").textContent = tk.word;
-  show("view");
-}
-$("viewClose").onclick = function(){ hide("view"); };
-
-/* ===================== 重置 ===================== */
-$("resetBtn").onclick = function(){
-  if(confirm("确定清空全部进度？这一下不可恢复。")){
-    localStorage.removeItem(KEY); S = load(); render(); toast("已清空，重新来过");
-  }
-};
 
 render();
 </script>
